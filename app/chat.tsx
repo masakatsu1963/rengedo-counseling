@@ -42,16 +42,19 @@ export default function ChatScreen() {
 
   const chatMutation = trpc.chat.useMutation();
 
-  // 初回メッセージ（観音様からの挨拶）
+  // 初回メッセージ（相談内容への共感）
   useEffect(() => {
+    // 相談内容を要約して共感的に繰り返す
+    const empathyMessage = `「${concern}」と感じていらっしゃるのですね。`;
+    
     const initialMessage: ChatMessage = {
       id: generateId(),
       role: "kannon",
-      content: `こんにちは。私は${kannonData.name}です。あなたの心の内をお聞かせください。`,
+      content: empathyMessage,
       timestamp: Date.now(),
     };
     setMessages([initialMessage]);
-  }, [kannonData.name]);
+  }, [concern]);
 
   // メッセージ送信
   const handleSend = async () => {
