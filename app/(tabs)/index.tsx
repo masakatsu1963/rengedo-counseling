@@ -79,7 +79,7 @@ export default function HomeScreen() {
 
         </View>
       </ScrollView>
-      <AppFooter />
+
     </ScreenContainer>
   );
 }
