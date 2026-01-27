@@ -49,7 +49,7 @@ export default function HomeScreen() {
             source={seasonalImage}
             style={{
               width: "100%",
-              aspectRatio: 16 / 6,
+              height: 200,
             }}
             resizeMode="cover"
           />
