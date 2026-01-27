@@ -127,7 +127,7 @@ export const appRouter = router({
         const isFirstMessage = input.messages.length === 1 && input.messages[0].role === "user";
         
         const systemPrompt = isFirstMessage
-          ? `${kannonData.persona}\n\n重要な指示: ユーザーの相談内容を受け取ったら、自己紹介は一切せず、まずユーザーの悩みを共感的に繰り返してください。その後、ユーザーの気持ちに寄り添う言葉をかけ、対話を深めるための質問をしてください。`
+          ? `あなたは${kannonData.name}です。${kannonData.persona}\n\n【絶対に守るべきルール】\n1. 自己紹介や挨拶は一切しないでください。\n2. 最初の返信では、必ずユーザーが話した悩みの内容を、自分の言葉で繰り返してください。\n3. 例: 「仕事でストレスがたまっています」→「仕事でのストレスに苦しんでいらっしゃるのですね。」\n4. その後、共感の言葉を添え、詳しく聞くための質問をしてください。`
           : kannonData.persona;
 
         const llmMessages = [
