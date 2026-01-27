@@ -34,7 +34,7 @@ export default function HomeScreen() {
               className="text-center mb-1"
               style={{ color: colors.muted, fontSize: 17 }}
             >
-              AI観音様による対話型カウンセリングルーム
+              AI観音様による{"\n"}対話型カウンセリングルーム
             </Text>
             <Text
               className="font-bold text-center mb-2"
