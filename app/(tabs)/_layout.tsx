@@ -29,6 +29,13 @@ export default function TabLayout() {
       }}
     >
       <Tabs.Screen
+        name="about"
+        options={{
+          title: "七観音とは",
+          tabBarIcon: ({ color }) => <IconSymbol size={28} name="book.fill" color={color} />,
+        }}
+      />
+      <Tabs.Screen
         name="index"
         options={{
           title: "ホーム",
@@ -38,14 +45,8 @@ export default function TabLayout() {
       <Tabs.Screen
         name="history"
         options={{
-          title: "履歴",
+          title: "過去の相談",
           tabBarIcon: ({ color }) => <IconSymbol size={28} name="clock.fill" color={color} />,
-        }}
-      />
-      <Tabs.Screen
-        name="about"
-        options={{
-          href: null,
         }}
       />
     </Tabs>
