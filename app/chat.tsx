@@ -163,13 +163,15 @@ export default function ChatScreen() {
         keyboardVerticalOffset={0}
       >
         {/* 観音様の画像（画面幅いっぱい、高さ60%に縮小） */}
-        <View className="w-full overflow-hidden" style={{ aspectRatio: 16 / (9 * 0.6) }}>
-          <Image
-            source={{ uri: kannonData.chatImageUrl }}
-            className="w-full h-full"
-            resizeMode="cover"
-          />
-        </View>
+        {kannonData?.chatImageUrl && (
+          <View className="w-full overflow-hidden" style={{ aspectRatio: 16 / (9 * 0.6) }}>
+            <Image
+              source={{ uri: kannonData.chatImageUrl }}
+              style={{ width: '100%', height: '100%' }}
+              resizeMode="cover"
+            />
+          </View>
+        )}
 
         {/* ヘッダー */}
         <View

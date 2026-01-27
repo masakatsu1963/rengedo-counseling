@@ -122,6 +122,11 @@ const KANNON_DATA: Record<NanType, KannonData> = {
 };
 
 export function getKannonByNan(nanType: NanType): KannonData {
+  // nanTypeがundefinedまたは不正な値の場合、デフォルトで聖観音を返す
+  if (!nanType || !KANNON_DATA[nanType]) {
+    console.warn(`Invalid nanType: ${nanType}, returning default (fire)`);
+    return KANNON_DATA.fire;
+  }
   return KANNON_DATA[nanType];
 }
 
