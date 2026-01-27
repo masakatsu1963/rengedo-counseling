@@ -1,4 +1,5 @@
 import { View, Text, TouchableOpacity, ScrollView } from "react-native";
+import { Image } from "expo-image";
 import { useRouter, useLocalSearchParams } from "expo-router";
 import { ScreenContainer } from "@/components/screen-container";
 import { useColors } from "@/hooks/use-colors";
@@ -74,12 +75,11 @@ export default function KannonSelectionScreen() {
               }}
             >
               <View className="items-center mb-4">
-                <View
-                  className="w-24 h-24 rounded-full items-center justify-center mb-4"
-                  style={{ backgroundColor: selectedKannon.colorTheme.primary }}
-                >
-                  <Text className="text-5xl">🪷</Text>
-                </View>
+                <Image
+                  source={{ uri: selectedKannon.imagePath }}
+                  style={{ width: 200, height: 200, borderRadius: 12, marginBottom: 16 }}
+                  contentFit="cover"
+                />
                 <Text
                   className="text-2xl font-bold mb-2"
                   style={{ color: selectedKannon.colorTheme.dark }}

@@ -9,7 +9,7 @@ import {
   Platform,
   ActivityIndicator,
 } from "react-native";
-import { Image } from "expo-image";
+
 import { useRouter, useLocalSearchParams } from "expo-router";
 import { ScreenContainer } from "@/components/screen-container";
 import { useColors } from "@/hooks/use-colors";
@@ -160,33 +160,25 @@ export default function ChatScreen() {
       >
         {/* ヘッダー */}
         <View
-          className="items-center py-6 border-b"
+          className="px-6 py-4 border-b"
           style={{
-            backgroundColor: colors.background,
-            borderBottomColor: colors.border,
+            backgroundColor: kannonData.colorTheme.primary,
+            borderBottomColor: kannonData.colorTheme.dark,
           }}
         >
-          <TouchableOpacity
-            onPress={handleBack}
-            activeOpacity={0.7}
-            className="absolute top-4 left-4"
-          >
-            <Text style={{ color: colors.foreground }} className="text-base">← 戻る</Text>
-          </TouchableOpacity>
-          <Image
-            source={{ uri: kannonData.imagePath }}
-            style={{ width: 200, height: 200, borderRadius: 8, marginBottom: 12 }}
-            contentFit="cover"
-          />
-          <Text
-            className="text-2xl font-bold"
-            style={{ color: kannonData.colorTheme.primary }}
-          >
-            {kannonData.name}
-          </Text>
-          <Text className="text-sm" style={{ color: colors.muted }}>
-            {kannonData.nanName}を救済する観音様
-          </Text>
+          <View className="flex-row items-center">
+            <TouchableOpacity onPress={handleBack} activeOpacity={0.7} className="mr-4">
+              <Text className="text-white text-base">← 戻る</Text>
+            </TouchableOpacity>
+            <View className="flex-1">
+              <Text className="text-white text-xl font-bold">
+                {kannonData.name}
+              </Text>
+              <Text className="text-white text-sm opacity-90">
+                {kannonData.nanName}
+              </Text>
+            </View>
+          </View>
         </View>
 
         {/* メッセージリスト */}
