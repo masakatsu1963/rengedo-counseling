@@ -31,14 +31,14 @@ export default function HomeScreen() {
               <Text className="text-6xl">🪷</Text>
             </View>
             <Text
-              className="text-sm text-center mb-2"
-              style={{ color: colors.muted }}
+              className="text-center mb-1"
+              style={{ color: colors.muted, fontSize: 17 }}
             >
               AI観音様による対話型カウンセリングルーム
             </Text>
             <Text
               className="font-bold text-center mb-2"
-              style={{ color: colors.foreground, fontSize: 60 }}
+              style={{ color: colors.foreground, fontSize: 50 }}
             >
               蓮華堂
             </Text>
