@@ -8,6 +8,7 @@ import {
   KeyboardAvoidingView,
   Platform,
   ActivityIndicator,
+  Image,
 } from "react-native";
 
 import { useRouter, useLocalSearchParams } from "expo-router";
@@ -161,6 +162,14 @@ export default function ChatScreen() {
         className="flex-1"
         keyboardVerticalOffset={0}
       >
+        {/* 観音様の画像（画面幅いっぱい） */}
+        <Image
+          source={{ uri: kannonData.chatImageUrl }}
+          className="w-full"
+          style={{ aspectRatio: 16 / 9 }}
+          resizeMode="cover"
+        />
+
         {/* ヘッダー */}
         <View
           className="px-6 py-4 border-b"

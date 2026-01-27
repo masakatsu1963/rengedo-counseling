@@ -16,7 +16,8 @@ export interface KannonData {
     light: string;
     dark: string;
   };
-  imageUrl: string; // CDN URL
+  imageUrl: string; // CDN URL (選択画面用)
+  chatImageUrl: string; // CDN URL (チャット画面用)
 }
 
 const KANNON_DATA: Record<NanType, KannonData> = {
@@ -32,6 +33,7 @@ const KANNON_DATA: Record<NanType, KannonData> = {
       dark: "#8B3A3A",
     },
     imageUrl: "https://files.manuscdn.com/user_upload_by_module/session_file/310519663145989169/FDXWiVxGOdUUcEqX.jpg",
+    chatImageUrl: "https://files.manuscdn.com/user_upload_by_module/session_file/310519663145989169/qdoiazeGzKaGgsdA.png",
   },
   water: {
     id: "water",
@@ -45,6 +47,7 @@ const KANNON_DATA: Record<NanType, KannonData> = {
       dark: "#8B2323",
     },
     imageUrl: "https://files.manuscdn.com/user_upload_by_module/session_file/310519663145989169/AwNBusoIPGynPrvU.jpg",
+    chatImageUrl: "https://files.manuscdn.com/user_upload_by_module/session_file/310519663145989169/ryiueNZYzUjShSbo.png",
   },
   wind: {
     id: "wind",
@@ -58,6 +61,7 @@ const KANNON_DATA: Record<NanType, KannonData> = {
       dark: "#4A7C59",
     },
     imageUrl: "https://files.manuscdn.com/user_upload_by_module/session_file/310519663145989169/FloPdnWLMdidNWEW.jpg",
+    chatImageUrl: "https://files.manuscdn.com/user_upload_by_module/session_file/310519663145989169/EFSJGSXtZfdBfguk.png",
   },
   demon: {
     id: "demon",
@@ -71,6 +75,7 @@ const KANNON_DATA: Record<NanType, KannonData> = {
       dark: "#5B4A8F",
     },
     imageUrl: "https://files.manuscdn.com/user_upload_by_module/session_file/310519663145989169/NepgdLZrzqwdXRan.jpg",
+    chatImageUrl: "https://files.manuscdn.com/user_upload_by_module/session_file/310519663145989169/GwTdCleoaeCGZNZY.png",
   },
   sword: {
     id: "sword",
@@ -84,6 +89,7 @@ const KANNON_DATA: Record<NanType, KannonData> = {
       dark: "#9B7653",
     },
     imageUrl: "https://files.manuscdn.com/user_upload_by_module/session_file/310519663145989169/TjMQTQIjenrbGEed.jpg",
+    chatImageUrl: "https://files.manuscdn.com/user_upload_by_module/session_file/310519663145989169/dbRrhofWqWWVbFgH.png",
   },
   chain: {
     id: "chain",
@@ -97,6 +103,7 @@ const KANNON_DATA: Record<NanType, KannonData> = {
       dark: "#2E4A73",
     },
     imageUrl: "https://files.manuscdn.com/user_upload_by_module/session_file/310519663145989169/SvomQpPImJgZjvsA.jpg",
+    chatImageUrl: "https://files.manuscdn.com/user_upload_by_module/session_file/310519663145989169/XVKYqNaJnjKjSMUs.png",
   },
   grudge: {
     id: "grudge",
@@ -110,6 +117,7 @@ const KANNON_DATA: Record<NanType, KannonData> = {
       dark: "#4A7C8A",
     },
     imageUrl: "https://files.manuscdn.com/user_upload_by_module/session_file/310519663145989169/HcrwyoZjCtfRRocY.jpg",
+    chatImageUrl: "https://files.manuscdn.com/user_upload_by_module/session_file/310519663145989169/OQcEoliRbwGlpaPd.png",
   },
 };
 
