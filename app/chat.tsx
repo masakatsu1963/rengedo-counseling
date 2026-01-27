@@ -162,13 +162,18 @@ export default function ChatScreen() {
         className="flex-1"
         keyboardVerticalOffset={0}
       >
-        {/* 観音様の画像（画面幅いっぱい） */}
-        <Image
-          source={{ uri: kannonData.chatImageUrl }}
-          className="w-full"
-          style={{ aspectRatio: 16 / 9 }}
-          resizeMode="cover"
-        />
+        {/* 観音様の画像（画面幅いっぱい、上下20%カット） */}
+        <View className="w-full overflow-hidden" style={{ aspectRatio: 16 / 9 }}>
+          <Image
+            source={{ uri: kannonData.chatImageUrl }}
+            className="w-full"
+            style={{ 
+              height: '166.67%', // 100% / 0.6 = 166.67% (上下20%カットで中央60%を表示)
+              marginTop: '-33.33%', // -20% / 0.6 = -33.33% (上20%をカット)
+            }}
+            resizeMode="cover"
+          />
+        </View>
 
         {/* ヘッダー */}
         <View
