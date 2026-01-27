@@ -24,7 +24,7 @@ export default function AboutScreen() {
           </View>
 
           {/* 説明文 */}
-          <View className="mb-8">
+          <View className="mb-6">
             <Text
               className="text-base leading-relaxed text-center"
               style={{ color: colors.foreground }}
@@ -35,12 +35,12 @@ export default function AboutScreen() {
           </View>
 
           {/* 七難救済の相関図 */}
-          <View className="items-center">
+          <View className="items-center flex-1 justify-center">
             <Image
               source={require("@/assets/images/seven-kannon-diagram.png")}
               style={{
-                width: "100%",
-                height: undefined,
+                width: "70%",
+                aspectRatio: 1,
               }}
               resizeMode="contain"
             />
