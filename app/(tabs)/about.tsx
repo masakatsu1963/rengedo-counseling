@@ -39,7 +39,7 @@ export default function AboutScreen() {
             <Image
               source={require("@/assets/images/seven-kannon-diagram.png")}
               style={{
-                width: "90%",
+                width: "70%",
                 aspectRatio: 1,
               }}
               resizeMode="contain"
