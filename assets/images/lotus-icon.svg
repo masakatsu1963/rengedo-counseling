@@ -1,0 +1,34 @@
+<svg width="1024" height="1024" viewBox="0 0 1024 1024" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <!-- 背景 -->
+  <rect width="1024" height="1024" fill="#5B4A8F" rx="180"/>
+  
+  <!-- 蓮の花（アウトライン） -->
+  <!-- 中央の花びら -->
+  <path d="M512 350 L550 450 L512 500 L474 450 Z" stroke="#F4E4E8" stroke-width="3" fill="none"/>
+  
+  <!-- 内側の花びら（4枚） -->
+  <path d="M512 300 L560 400 L512 480 L464 400 Z" stroke="#F4E4E8" stroke-width="4" fill="none"/>
+  <path d="M450 350 L480 450 L420 500 L390 420 Z" stroke="#F4E4E8" stroke-width="4" fill="none"/>
+  <path d="M574 350 L604 450 L644 500 L634 420 Z" stroke="#F4E4E8" stroke-width="4" fill="none"/>
+  <path d="M512 480 L540 580 L512 630 L484 580 Z" stroke="#F4E4E8" stroke-width="4" fill="none"/>
+  
+  <!-- 外側の花びら（8枚） -->
+  <path d="M512 250 L580 380 L540 480 L484 480 L444 380 Z" stroke="#D4AF37" stroke-width="5" fill="none"/>
+  <path d="M380 320 L440 420 L400 520 L340 480 L320 400 Z" stroke="#D4AF37" stroke-width="5" fill="none"/>
+  <path d="M644 320 L704 400 L684 480 L624 520 L584 420 Z" stroke="#D4AF37" stroke-width="5" fill="none"/>
+  <path d="M350 450 L400 540 L360 640 L300 600 L290 520 Z" stroke="#D4AF37" stroke-width="5" fill="none"/>
+  <path d="M674 450 L724 520 L734 600 L664 640 L624 540 Z" stroke="#D4AF37" stroke-width="5" fill="none"/>
+  <path d="M420 580 L460 670 L420 750 L360 720 L350 640 Z" stroke="#D4AF37" stroke-width="5" fill="none"/>
+  <path d="M604 580 L674 640 L664 720 L604 750 L564 670 Z" stroke="#D4AF37" stroke-width="5" fill="none"/>
+  <path d="M512 620 L560 710 L540 780 L484 780 L464 710 Z" stroke="#D4AF37" stroke-width="5" fill="none"/>
+  
+  <!-- 茎 -->
+  <line x1="512" y1="630" x2="512" y2="800" stroke="#D4AF37" stroke-width="6"/>
+  
+  <!-- 中心の円 -->
+  <circle cx="512" cy="450" r="30" stroke="#F4E4E8" stroke-width="4" fill="none"/>
+  <circle cx="512" cy="450" r="20" stroke="#D4AF37" stroke-width="3" fill="none"/>
+  
+  <!-- 装飾的な点 -->
+  <circle cx="512" cy="450" r="5" fill="#F4E4E8"/>
+</svg>
