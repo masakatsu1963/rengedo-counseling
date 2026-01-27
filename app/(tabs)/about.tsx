@@ -12,9 +12,9 @@ export default function AboutScreen() {
   return (
     <ScreenContainer edges={["top", "left", "right", "bottom"]}>
       <ScrollView contentContainerStyle={{ flexGrow: 1 }}>
-        <View className="flex-1 px-6 py-8">
+        <View className="flex-1 px-6 py-6">
           {/* タイトル */}
-          <View className="items-center mb-6">
+          <View className="items-center mb-4">
             <Text
               className="text-3xl font-bold text-center"
               style={{ color: colors.foreground }}
@@ -24,7 +24,7 @@ export default function AboutScreen() {
           </View>
 
           {/* 説明文 */}
-          <View className="mb-6">
+          <View className="mb-8">
             <Text
               className="text-base leading-relaxed text-center"
               style={{ color: colors.foreground }}
@@ -35,7 +35,7 @@ export default function AboutScreen() {
           </View>
 
           {/* 七難救済の相関図 */}
-          <View className="items-center mb-6">
+          <View className="items-center">
             <Image
               source={require("@/assets/images/seven-kannon-diagram.png")}
               style={{
@@ -46,18 +46,7 @@ export default function AboutScreen() {
             />
           </View>
 
-          {/* 補足説明 */}
-          <View className="mb-6">
-            <Text
-              className="text-sm leading-relaxed text-center"
-              style={{ color: colors.muted }}
-            >
-              この図は、六道輪廻と七観音、そして七難の関係を示しています。{"\n"}
-              {"\n"}
-              あなたの悩みに最もふさわしい観音様が、{"\n"}
-              智慧と慈悲をもってお導きいたします。
-            </Text>
-          </View>
+
         </View>
       </ScrollView>
     </ScreenContainer>
