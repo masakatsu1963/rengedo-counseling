@@ -4,7 +4,7 @@ import { getSessionCookieOptions } from "./_core/cookies";
 import { systemRouter } from "./_core/systemRouter";
 import { publicProcedure, router } from "./_core/trpc";
 import { invokeLLM } from "./_core/llm";
-import { KANNON_DATA, type NanType } from "../constants/kannon-data";
+import { getAllKannon, getKannonByNan, type NanType } from "../constants/kannon-data";
 
 export const appRouter = router({
   // if you need to use socket.io, read and register route in server/_core/index.ts, all api should start with '/api/' so that the gateway can route correctly
@@ -80,15 +80,16 @@ export const appRouter = router({
         const result = JSON.parse(response.choices[0].message.content as string);
         const nanType = result.nanType as NanType;
 
-        if (!KANNON_DATA[nanType]) {
+        const kannonForValidation = getKannonByNan(nanType);
+        if (!kannonForValidation) {
           throw new Error("Invalid nanType returned from LLM");
         }
 
         return {
           nanType,
           reason: result.reason,
-          kannonName: KANNON_DATA[nanType].name,
-          nanName: KANNON_DATA[nanType].nanName,
+          kannonName: getKannonByNan(nanType).name,
+          nanName: getKannonByNan(nanType).nanName,
         };
       } catch (error) {
         console.error("Classification error:", error);
@@ -97,8 +98,8 @@ export const appRouter = router({
         return {
           nanType: randomNan,
           reason: "あなたの悩みに寄り添います",
-          kannonName: KANNON_DATA[randomNan].name,
-          nanName: KANNON_DATA[randomNan].nanName,
+          kannonName: getKannonByNan(randomNan).name,
+          nanName: getKannonByNan(randomNan).nanName,
         };
       }
     }),
@@ -120,7 +121,7 @@ export const appRouter = router({
     )
     .mutation(async ({ input }) => {
       try {
-        const kannonData = KANNON_DATA[input.nanType];
+        const kannonData = getKannonByNan(input.nanType);
 
         const llmMessages = [
           {

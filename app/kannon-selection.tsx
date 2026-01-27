@@ -76,7 +76,7 @@ export default function KannonSelectionScreen() {
             >
               <View className="items-center mb-4">
                 <Image
-                  source={{ uri: selectedKannon.imagePath }}
+                  source={{ uri: selectedKannon.imageUrl }}
                   style={{ width: 200, height: 200, borderRadius: 12, marginBottom: 16 }}
                   contentFit="cover"
                 />
