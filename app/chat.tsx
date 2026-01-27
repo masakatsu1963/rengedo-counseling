@@ -110,9 +110,9 @@ export default function ChatScreen() {
       };
       await saveConsultation(session);
 
-      // スクロールを最下部に
+      // スクロールを最上部に（観音様の返答の最初から読めるように）
       setTimeout(() => {
-        flatListRef.current?.scrollToEnd({ animated: true });
+        flatListRef.current?.scrollToOffset({ offset: 0, animated: true });
       }, 100);
     } catch (error) {
       console.error("Chat error:", error);
@@ -191,7 +191,10 @@ export default function ChatScreen() {
           keyExtractor={(item) => item.id}
           renderItem={renderMessage}
           contentContainerStyle={{ padding: 16, paddingBottom: 8 }}
-          onContentSizeChange={() => flatListRef.current?.scrollToEnd({ animated: true })}
+          onContentSizeChange={() => {
+            // 新しいメッセージが追加されたら最上部にスクロール
+            flatListRef.current?.scrollToOffset({ offset: 0, animated: true });
+          }}
         />
 
         {/* 入力エリア */}

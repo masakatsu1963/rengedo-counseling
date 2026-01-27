@@ -87,4 +87,9 @@
 - [x] ロゴ画像をCDNにアップロード（https://files.manuscdn.com/user_upload_by_module/session_file/310519663145989169/SjTUHTQuhPMLWKGq.png）
 - [x] input.tsxのローディング表示にロゴを追加（kannon-selection.tsxにはローディング表示なし）
 - [x] 動作確認
+- [x] チェックポイント作成
+
+## チャット画面のスクロール動作修正
+- [x] 観音様の返答後、自動的に発言の最初（上部）に戻るように修正
+- [x] 動作確認
 - [ ] チェックポイント作成
