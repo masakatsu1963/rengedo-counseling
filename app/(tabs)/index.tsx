@@ -38,7 +38,7 @@ export default function HomeScreen() {
             </Text>
             <Text
               className="font-bold text-center mb-2"
-              style={{ color: colors.foreground, fontSize: 96 }}
+              style={{ color: colors.foreground, fontSize: 60 }}
             >
               蓮華堂
             </Text>
