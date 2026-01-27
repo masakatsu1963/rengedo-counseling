@@ -11,6 +11,7 @@ import {
 } from "react-native";
 import { useRouter } from "expo-router";
 import { ScreenContainer } from "@/components/screen-container";
+import { AppFooter } from "@/components/app-footer";
 import { useColors } from "@/hooks/use-colors";
 import { IconSymbol } from "@/components/ui/icon-symbol";
 import { trpc } from "@/lib/trpc";
@@ -65,16 +66,7 @@ export default function InputScreen() {
           keyboardShouldPersistTaps="handled"
         >
           <View className="flex-1 px-6 py-8">
-            {/* ヘッダー */}
-            <View className="flex-row items-center mb-8">
-              <TouchableOpacity onPress={handleBack} activeOpacity={0.7}>
-                <IconSymbol
-                  name="chevron.left.forwardslash.chevron.right"
-                  size={24}
-                  color={colors.foreground}
-                />
-              </TouchableOpacity>
-            </View>
+
 
             {/* タイトル */}
             <View className="mb-8">
@@ -147,6 +139,7 @@ export default function InputScreen() {
           </View>
         </ScrollView>
       </KeyboardAvoidingView>
+      <AppFooter />
     </ScreenContainer>
   );
 }

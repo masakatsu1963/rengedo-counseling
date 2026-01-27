@@ -1,6 +1,7 @@
 import { View, Text, TouchableOpacity, ScrollView } from "react-native";
 import { useRouter } from "expo-router";
 import { ScreenContainer } from "@/components/screen-container";
+import { AppFooter } from "@/components/app-footer";
 import { useColors } from "@/hooks/use-colors";
 
 /**
@@ -15,9 +16,7 @@ export default function HomeScreen() {
     router.push("/input" as any);
   };
 
-  const handleViewHistory = () => {
-    router.push("/history" as any);
-  };
+
 
   return (
     <ScreenContainer>
@@ -71,20 +70,10 @@ export default function HomeScreen() {
             </View>
           </TouchableOpacity>
 
-          {/* 履歴リンク */}
-          <TouchableOpacity
-            onPress={handleViewHistory}
-            activeOpacity={0.7}
-          >
-            <Text
-              className="text-base underline"
-              style={{ color: colors.muted }}
-            >
-              過去の相談を見る
-            </Text>
-          </TouchableOpacity>
+
         </View>
       </ScrollView>
+      <AppFooter />
     </ScreenContainer>
   );
 }

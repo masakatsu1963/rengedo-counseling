@@ -13,6 +13,7 @@ import {
 
 import { useRouter, useLocalSearchParams } from "expo-router";
 import { ScreenContainer } from "@/components/screen-container";
+import { AppFooter } from "@/components/app-footer";
 import { useColors } from "@/hooks/use-colors";
 import { getKannonByNan, type NanType } from "@/constants/kannon-data";
 import { trpc } from "@/lib/trpc";
@@ -257,6 +258,7 @@ export default function ChatScreen() {
           </View>
         </View>
       </KeyboardAvoidingView>
+      <AppFooter />
     </ScreenContainer>
   );
 }

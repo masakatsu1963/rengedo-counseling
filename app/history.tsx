@@ -8,6 +8,7 @@ import {
 } from "react-native";
 import { useRouter } from "expo-router";
 import { ScreenContainer } from "@/components/screen-container";
+import { AppFooter } from "@/components/app-footer";
 import { useColors } from "@/hooks/use-colors";
 import { getAllConsultations, deleteConsultation, type ConsultationSession } from "@/lib/storage";
 import { getKannonByNan } from "@/constants/kannon-data";
@@ -176,6 +177,7 @@ export default function HistoryScreen() {
           />
         )}
       </View>
+      <AppFooter />
     </ScreenContainer>
   );
 }
