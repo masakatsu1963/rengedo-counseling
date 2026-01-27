@@ -123,10 +123,17 @@ export const appRouter = router({
       try {
         const kannonData = getKannonByNan(input.nanType);
 
+        // 初回メッセージの場合は、相談内容を共感的に繰り返すように指示
+        const isFirstMessage = input.messages.length === 1 && input.messages[0].role === "user";
+        
+        const systemPrompt = isFirstMessage
+          ? `${kannonData.persona}\n\n重要な指示: ユーザーの相談内容を受け取ったら、自己紹介は一切せず、まずユーザーの悩みを共感的に繰り返してください。その後、ユーザーの気持ちに寄り添う言葉をかけ、対話を深めるための質問をしてください。`
+          : kannonData.persona;
+
         const llmMessages = [
           {
             role: "system" as const,
-            content: kannonData.persona,
+            content: systemPrompt,
           },
           ...input.messages.map((msg) => ({
             role: msg.role as "user" | "assistant",
