@@ -31,7 +31,13 @@ export default function HomeScreen() {
               <Text className="text-6xl">🪷</Text>
             </View>
             <Text
-              className="text-3xl font-bold text-center mb-2"
+              className="text-sm text-center mb-2"
+              style={{ color: colors.muted }}
+            >
+              AI観音様による対話型カウンセリングルーム
+            </Text>
+            <Text
+              className="text-5xl font-bold text-center mb-2"
               style={{ color: colors.foreground }}
             >
               蓮華堂
