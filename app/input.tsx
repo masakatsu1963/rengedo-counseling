@@ -14,6 +14,7 @@ import { ScreenContainer } from "@/components/screen-container";
 import { useColors } from "@/hooks/use-colors";
 import { IconSymbol } from "@/components/ui/icon-symbol";
 import { trpc } from "@/lib/trpc";
+import { Image } from "expo-image";
 
 /**
  * 悩み入力画面
@@ -128,7 +129,11 @@ export default function InputScreen() {
             >
               {isAnalyzing ? (
                 <View className="flex-row items-center">
-                  <ActivityIndicator color="#FFFFFF" size="small" />
+                  <Image
+                    source={{ uri: "https://files.manuscdn.com/user_upload_by_module/session_file/310519663145989169/SjTUHTQuhPMLWKGq.png" }}
+                    style={{ width: 24, height: 24 }}
+                    contentFit="contain"
+                  />
                   <Text className="text-white text-lg font-semibold ml-3">
                     分析中...
                   </Text>

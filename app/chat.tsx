@@ -45,7 +45,7 @@ export default function ChatScreen() {
   // 初回メッセージ（相談内容への共感）
   useEffect(() => {
     // 相談内容を要約して共感的に繰り返す
-    const empathyMessage = `「${concern}」と感じていらっしゃるのですね。`;
+    const empathyMessage = `「${concern}」と感じていらっしゃるのですね。\n\n詳しくお話を聞かせていただけますか？`;
     
     const initialMessage: ChatMessage = {
       id: generateId(),
