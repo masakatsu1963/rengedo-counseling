@@ -108,7 +108,7 @@ export default function InputScreen() {
                   color: colors.foreground,
                   borderWidth: 1,
                   borderColor: colors.border,
-                  minHeight: 200,
+                  minHeight: 100,
                 }}
               />
             </View>
