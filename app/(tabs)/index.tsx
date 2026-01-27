@@ -55,9 +55,9 @@ export default function HomeScreen() {
           />
 
           {/* コンテンツエリア */}
-          <View className="flex-1 items-center justify-center px-6 py-12">
+          <View className="flex-1 items-center px-6 pt-8">
             {/* タイトルエリア */}
-            <View className="items-center mb-12">
+            <View className="items-center mb-8">
               <Text
                 className="text-center mb-1"
                 style={{ color: colors.muted, fontSize: 17 }}
@@ -65,26 +65,22 @@ export default function HomeScreen() {
                 AI観音様による{"\n"}対話型カウンセリングルーム
               </Text>
               <Text
-                className="font-bold text-center mb-2"
+                className="font-bold text-center"
                 style={{ color: colors.foreground, fontSize: 50 }}
               >
                 蓮華堂
               </Text>
-              <Text
-                className="text-lg text-center"
-                style={{ color: colors.muted }}
-              >
-                七観音の智慧
-              </Text>
             </View>
 
             {/* メッセージ */}
-            <View className="items-center mb-12">
+            <View className="items-center mb-8">
               <Text
-                className="text-xl text-center leading-relaxed"
+                className="text-base text-center leading-relaxed"
                 style={{ color: colors.foreground }}
               >
-                心の悩みを{"\n"}観音様にお話しください
+                観音経の七つの智慧から、{"\n"}
+                最もふさわしい観音様がお導きいたします。{"\n"}
+                どうぞ、お悩みを自由にお話しください。
               </Text>
             </View>
 
