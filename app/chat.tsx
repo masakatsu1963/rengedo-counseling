@@ -112,9 +112,16 @@ export default function ChatScreen() {
       };
       await saveConsultation(session);
 
-      // スクロールを最上部に（観音様の返答の最初から読めるように）
+      // スクロールを観音様の返答の先頭に（最新のメッセージの位置に移動）
       setTimeout(() => {
-        flatListRef.current?.scrollToOffset({ offset: 0, animated: true });
+        const lastIndex = updatedMessages.length - 1;
+        if (lastIndex >= 0) {
+          flatListRef.current?.scrollToIndex({
+            index: lastIndex,
+            animated: true,
+            viewPosition: 0, // 画面の上部に表示
+          });
+        }
       }, 100);
     } catch (error) {
       console.error("Chat error:", error);
