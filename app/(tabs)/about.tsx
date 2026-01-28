@@ -37,7 +37,7 @@ export default function AboutScreen() {
           {/* 七難救済の相関図 */}
           <View className="items-center flex-1 justify-center">
             <Image
-              source={require("@/assets/images/sokanzu02.jpg")}
+              source={require("@/assets/images/sokanzu03.jpg")}
               style={{
                 width: "70%",
                 aspectRatio: 1,
