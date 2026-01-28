@@ -13,27 +13,6 @@ export default function AboutScreen() {
     <ScreenContainer edges={["top", "left", "right", "bottom"]} containerClassName="bg-white">
       <ScrollView contentContainerStyle={{ flexGrow: 1 }}>
         <View className="flex-1 px-6 py-6">
-          {/* タイトル */}
-          <View className="items-center mb-4">
-            <Text
-              className="text-3xl font-bold text-center"
-              style={{ color: "#000000" }}
-            >
-              七観音とは
-            </Text>
-          </View>
-
-          {/* 説明文 */}
-          <View className="mb-6">
-            <Text
-              className="text-base leading-relaxed text-center"
-              style={{ color: "#000000" }}
-            >
-              観音経では、七つの難（七難）から救済する{"\n"}
-              七つの観音様が説かれています。
-            </Text>
-          </View>
-
           {/* 七難救済の相関図 */}
           <View className="items-center flex-1 justify-center" style={{ marginTop: -100 }}>
             <Image
