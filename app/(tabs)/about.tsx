@@ -14,7 +14,7 @@ export default function AboutScreen() {
       <ScrollView contentContainerStyle={{ flexGrow: 1 }}>
         <View className="flex-1 px-6 py-6">
           {/* 七難救済の相関図 */}
-          <View className="items-center flex-1 justify-center" style={{ marginTop: -100 }}>
+          <View className="items-center flex-1 justify-center" style={{ marginTop: 0 }}>
             <Image
               source={require("@/assets/images/sokanzu03.jpg")}
               style={{
