@@ -47,9 +47,28 @@ export default function HistoryScreen() {
     setNanCounts(counts);
   };
 
+  // 難の説明マップ
+  const nanDescriptions: Record<NanType, string> = {
+    fire: "怒りや憎しみの炎",
+    water: "物質的な執着や欲望",
+    wind: "情報の嵐や迷い",
+    demon: "心の中の恐れや不安",
+    sword: "権力の乱用や暴力",
+    chain: "社会の束縛や抑圧",
+    grudge: "人間関係の対立や恨み",
+  };
+
   // レーダーチャート用のデータ
   const radarData = {
-    labels: ["火の難", "水の難", "風の難", "鬼の難", "刀の難", "鎖の難", "怨の難"],
+    labels: [
+      `火の難\n${nanDescriptions.fire}`,
+      `水の難\n${nanDescriptions.water}`,
+      `風の難\n${nanDescriptions.wind}`,
+      `鬼の難\n${nanDescriptions.demon}`,
+      `刀の難\n${nanDescriptions.sword}`,
+      `鎖の難\n${nanDescriptions.chain}`,
+      `怨の難\n${nanDescriptions.grudge}`,
+    ],
     datasets: [
       {
         data: [
@@ -120,7 +139,7 @@ export default function HistoryScreen() {
                     return (
                       <View key={index}>
                         <View className="flex-row justify-between mb-1">
-                          <Text className="text-sm" style={{ color: "#666666" }}>
+                          <Text className="text-sm" style={{ color: "#666666", lineHeight: 20 }}>
                             {label}
                           </Text>
                           <Text className="text-sm font-semibold" style={{ color: "#8A2BE2" }}>

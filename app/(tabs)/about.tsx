@@ -1,6 +1,8 @@
-import { View, Text, ScrollView, Image } from "react-native";
+import { View, Text, ScrollView, Image, TouchableOpacity, Dimensions } from "react-native";
 import { ScreenContainer } from "@/components/screen-container";
 import { useColors } from "@/hooks/use-colors";
+import { useRouter } from "expo-router";
+import { type NanType } from "@/constants/kannon-data";
 
 /**
  * 七観音とは画面
@@ -8,6 +10,24 @@ import { useColors } from "@/hooks/use-colors";
  */
 export default function AboutScreen() {
   const colors = useColors();
+  const router = useRouter();
+  const screenWidth = Dimensions.get("window").width;
+  const imageWidth = screenWidth * 0.7;
+
+  // 相関図上の各観音様の位置（画像サイズに対する相対的な位置）
+  const kannonPositions: Record<NanType, { top: string; left: string; width: string; height: string }> = {
+    fire: { top: "15%", left: "40%", width: "20%", height: "15%" }, // 上部中央（聖観音）
+    water: { top: "30%", left: "10%", width: "20%", height: "15%" }, // 左上（千手観音）
+    wind: { top: "30%", left: "70%", width: "20%", height: "15%" }, // 右上（馬頭観音）
+    demon: { top: "50%", left: "5%", width: "20%", height: "15%" }, // 左中（十一面観音）
+    sword: { top: "50%", left: "75%", width: "20%", height: "15%" }, // 右中（如意輪観音）
+    chain: { top: "70%", left: "10%", width: "20%", height: "15%" }, // 左下（不空羂索観音）
+    grudge: { top: "70%", left: "70%", width: "20%", height: "15%" }, // 右下（准胝観音）
+  };
+
+  const handleKannonPress = (nanType: NanType) => {
+    router.push(`/kannon-detail?nanType=${nanType}` as any);
+  };
 
   return (
     <ScreenContainer edges={["top", "left", "right", "bottom"]} containerClassName="bg-white">
@@ -15,14 +35,35 @@ export default function AboutScreen() {
         <View className="flex-1 px-6 py-6">
           {/* 七難救済の相関図 */}
           <View className="items-center flex-1 justify-center" style={{ marginTop: 0 }}>
-            <Image
-              source={require("@/assets/images/sokanzu03.jpg")}
-              style={{
-                width: "70%",
-                aspectRatio: 1,
-              }}
-              resizeMode="contain"
-            />
+            <View style={{ position: "relative", width: imageWidth, aspectRatio: 1 }}>
+              <Image
+                source={require("@/assets/images/sokanzu03.jpg")}
+                style={{
+                  width: "100%",
+                  height: "100%",
+                }}
+                resizeMode="contain"
+              />
+              {/* タップ可能な観音様の領域 */}
+              {(Object.entries(kannonPositions) as [NanType, typeof kannonPositions[NanType]][]).map(([nanType, position]) => (
+                <TouchableOpacity
+                  key={nanType}
+                  onPress={() => handleKannonPress(nanType)}
+                  activeOpacity={0.7}
+                  style={{
+                    position: "absolute",
+                    top: position.top as any,
+                    left: position.left as any,
+                    width: position.width as any,
+                    height: position.height as any,
+                    // デバッグ用：タップ可能領域を表示（必要に応じてコメントアウト）
+                    // backgroundColor: "rgba(255, 0, 0, 0.2)",
+                    // borderWidth: 1,
+                    // borderColor: "red",
+                  }}
+                />
+              ))}
+            </View>
           </View>
 
           {/* 七難と七観音の説明 */}
