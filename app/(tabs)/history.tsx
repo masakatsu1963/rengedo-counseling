@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { ScrollView, Text, View, Dimensions } from "react-native";
+import { ScrollView, Text, View, Dimensions, Linking, TouchableOpacity } from "react-native";
 import { ScreenContainer } from "@/components/screen-container";
 import { getAllConsultations, type ConsultationSession } from "@/lib/storage";
 import { type NanType } from "@/constants/kannon-data";
@@ -181,6 +181,30 @@ export default function HistoryScreen() {
               </Text>
             </View>
           )}
+
+          {/* クレジット表示 */}
+          <View
+            className="bg-white rounded-2xl p-6 shadow-sm mt-8"
+            style={{ borderWidth: 1, borderColor: "#E5E7EB" }}
+          >
+            <Text className="text-sm text-center mb-2" style={{ color: "#666666" }}>
+              様々な、お悩み相談窓口をご案内します。
+            </Text>
+            <TouchableOpacity
+              onPress={() => Linking.openURL("http://www.artam.asia/rengedo/")}
+              activeOpacity={0.7}
+            >
+              <Text
+                className="text-lg font-bold text-center mb-2"
+                style={{ color: "#8A2BE2", textDecorationLine: "underline" }}
+              >
+                蓮華堂
+              </Text>
+            </TouchableOpacity>
+            <Text className="text-xs text-center" style={{ color: "#999999" }}>
+              2026 copyright by Rengedo, Masakatsu
+            </Text>
+          </View>
         </View>
       </ScrollView>
     </ScreenContainer>

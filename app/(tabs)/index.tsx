@@ -1,8 +1,9 @@
-import { View, Text, TouchableOpacity, ScrollView, Image } from "react-native";
+import { View, Text, TouchableOpacity, ScrollView, Image, TextInput, Modal } from "react-native";
 import { useRouter } from "expo-router";
 import { ScreenContainer } from "@/components/screen-container";
 import { useColors } from "@/hooks/use-colors";
-import { useMemo } from "react";
+import { useMemo, useState, useEffect } from "react";
+import { PersonalData, loadPersonalData, savePersonalData } from "@/lib/personal-data";
 
 /**
  * 現在の月に応じて四季の画像を取得する関数
@@ -36,8 +37,37 @@ export default function HomeScreen() {
   // 現在の季節に応じた画像を取得
   const seasonalImage = useMemo(() => getSeasonalImage(), []);
 
+  // パーソナルデータの状態管理
+  const [personalData, setPersonalData] = useState<PersonalData>({});
+  const [showPersonalDataModal, setShowPersonalDataModal] = useState(false);
+  const [tempPersonalData, setTempPersonalData] = useState<PersonalData>({});
+
+  // 初回読み込み時にパーソナルデータを読み込む
+  useEffect(() => {
+    loadPersonalData().then((data) => {
+      if (data) {
+        setPersonalData(data);
+      }
+    });
+  }, []);
+
   const handleStartConsultation = () => {
     router.push("/input" as any);
+  };
+
+  const handleOpenPersonalDataModal = () => {
+    setTempPersonalData(personalData);
+    setShowPersonalDataModal(true);
+  };
+
+  const handleSavePersonalData = async () => {
+    await savePersonalData(tempPersonalData);
+    setPersonalData(tempPersonalData);
+    setShowPersonalDataModal(false);
+  };
+
+  const handleCancelPersonalData = () => {
+    setShowPersonalDataModal(false);
   };
 
   return (
@@ -84,6 +114,24 @@ export default function HomeScreen() {
               </Text>
             </View>
 
+            {/* パーソナルデータ表示・編集ボタン */}
+            <TouchableOpacity
+              onPress={handleOpenPersonalDataModal}
+              activeOpacity={0.8}
+              className="w-full max-w-sm mb-4"
+            >
+              <View
+                className="py-3 px-6 rounded-lg items-center"
+                style={{ backgroundColor: colors.surface, borderWidth: 1, borderColor: colors.border }}
+              >
+                <Text className="text-sm" style={{ color: colors.muted }}>
+                  {personalData.age || personalData.gender || personalData.occupation
+                    ? `${personalData.age || ""}${personalData.age && (personalData.gender || personalData.occupation) ? " / " : ""}${personalData.gender || ""}${personalData.gender && personalData.occupation ? " / " : ""}${personalData.occupation || ""}`
+                    : "プロフィールを設定する（任意）"}
+                </Text>
+              </View>
+            </TouchableOpacity>
+
             {/* メインボタン */}
             <TouchableOpacity
               onPress={handleStartConsultation}
@@ -102,6 +150,144 @@ export default function HomeScreen() {
           </View>
         </View>
       </ScrollView>
+
+      {/* パーソナルデータ入力モーダル */}
+      <Modal
+        visible={showPersonalDataModal}
+        transparent={true}
+        animationType="fade"
+        onRequestClose={handleCancelPersonalData}
+      >
+        <View
+          style={{
+            flex: 1,
+            backgroundColor: "rgba(0, 0, 0, 0.5)",
+            justifyContent: "center",
+            alignItems: "center",
+            padding: 20,
+          }}
+        >
+          <View
+            style={{
+              backgroundColor: colors.background,
+              borderRadius: 16,
+              padding: 24,
+              width: "100%",
+              maxWidth: 400,
+            }}
+          >
+            <Text
+              className="text-xl font-bold mb-4 text-center"
+              style={{ color: colors.foreground }}
+            >
+              プロフィール設定
+            </Text>
+            <Text
+              className="text-sm mb-6 text-center"
+              style={{ color: colors.muted }}
+            >
+              より適切なアドバイスをさせていただくため、{"\n"}
+              差し支えなければご入力ください。（任意）
+            </Text>
+
+            {/* 年齢入力 */}
+            <View className="mb-4">
+              <Text className="text-sm mb-2" style={{ color: colors.foreground }}>
+                年齢
+              </Text>
+              <TextInput
+                value={tempPersonalData.age || ""}
+                onChangeText={(text) => setTempPersonalData({ ...tempPersonalData, age: text })}
+                placeholder="例: 30代"
+                placeholderTextColor={colors.muted}
+                style={{
+                  backgroundColor: colors.surface,
+                  borderWidth: 1,
+                  borderColor: colors.border,
+                  borderRadius: 8,
+                  padding: 12,
+                  color: colors.foreground,
+                }}
+              />
+            </View>
+
+            {/* 性別入力 */}
+            <View className="mb-4">
+              <Text className="text-sm mb-2" style={{ color: colors.foreground }}>
+                性別
+              </Text>
+              <TextInput
+                value={tempPersonalData.gender || ""}
+                onChangeText={(text) => setTempPersonalData({ ...tempPersonalData, gender: text })}
+                placeholder="例: 女性"
+                placeholderTextColor={colors.muted}
+                style={{
+                  backgroundColor: colors.surface,
+                  borderWidth: 1,
+                  borderColor: colors.border,
+                  borderRadius: 8,
+                  padding: 12,
+                  color: colors.foreground,
+                }}
+              />
+            </View>
+
+            {/* 職業入力 */}
+            <View className="mb-6">
+              <Text className="text-sm mb-2" style={{ color: colors.foreground }}>
+                職業
+              </Text>
+              <TextInput
+                value={tempPersonalData.occupation || ""}
+                onChangeText={(text) => setTempPersonalData({ ...tempPersonalData, occupation: text })}
+                placeholder="例: 会社員"
+                placeholderTextColor={colors.muted}
+                style={{
+                  backgroundColor: colors.surface,
+                  borderWidth: 1,
+                  borderColor: colors.border,
+                  borderRadius: 8,
+                  padding: 12,
+                  color: colors.foreground,
+                }}
+              />
+            </View>
+
+            {/* ボタンエリア */}
+            <View className="flex-row gap-3">
+              <TouchableOpacity
+                onPress={handleCancelPersonalData}
+                activeOpacity={0.8}
+                className="flex-1"
+              >
+                <View
+                  className="py-3 px-6 rounded-lg items-center"
+                  style={{ backgroundColor: colors.surface, borderWidth: 1, borderColor: colors.border }}
+                >
+                  <Text className="text-base font-semibold" style={{ color: colors.foreground }}>
+                    キャンセル
+                  </Text>
+                </View>
+              </TouchableOpacity>
+
+              <TouchableOpacity
+                onPress={handleSavePersonalData}
+                activeOpacity={0.8}
+                className="flex-1"
+              >
+                <View
+                  className="py-3 px-6 rounded-lg items-center"
+                  style={{ backgroundColor: colors.primary }}
+                >
+                  <Text className="text-base font-semibold text-white">
+                    保存
+                  </Text>
+                </View>
+              </TouchableOpacity>
+            </View>
+          </View>
+        </View>
+      </Modal>
     </ScreenContainer>
   );
 }

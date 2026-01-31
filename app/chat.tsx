@@ -23,6 +23,7 @@ import {
   type ChatMessage,
   type ConsultationSession,
 } from "@/lib/storage";
+import { loadPersonalData, type PersonalData } from "@/lib/personal-data";
 
 /**
  * カウンセリング対話画面
@@ -42,8 +43,18 @@ export default function ChatScreen() {
   const [inputText, setInputText] = useState("");
   const [sessionId] = useState(() => generateId());
   const [showSummaryButton, setShowSummaryButton] = useState(false);
+  const [personalData, setPersonalData] = useState<PersonalData | null>(null);
 
   const chatMutation = trpc.chat.useMutation();
+
+  // パーソナルデータを読み込む
+  useEffect(() => {
+    loadPersonalData().then((data) => {
+      if (data) {
+        setPersonalData(data);
+      }
+    });
+  }, []);
 
   // 初回メッセージ（相談内容への共感）
   useEffect(() => {
@@ -89,6 +100,7 @@ export default function ChatScreen() {
       const response = await chatMutation.mutateAsync({
         nanType,
         messages: llmMessages,
+        personalData: personalData || undefined,
       });
 
       const kannonMessage: ChatMessage = {
