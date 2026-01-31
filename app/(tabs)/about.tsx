@@ -15,15 +15,15 @@ export default function AboutScreen() {
   const imageWidth = screenWidth * 0.7;
 
   // 相関図上の各観音様の位置（画像サイズに対する相対的な位置）
-  // 一番上から時計回り：聖観音、千手観音、馬頭観音、十一面観音、不空羂索観音、准胝観音、如意輪観音
+  // 一番上から時計回り：聖観音、千手観音、馬頭観音、十一面観音、不空缂索観音、准胝観音、如意輪観音
   const kannonPositions: Record<NanType, { top: string; left: string; width: string; height: string }> = {
-    fire: { top: "15%", left: "40%", width: "20%", height: "15%" }, // 上部中央（聖観音）
-    water: { top: "30%", left: "70%", width: "20%", height: "15%" }, // 右上（千手観音）
-    wind: { top: "50%", left: "75%", width: "20%", height: "15%" }, // 右中（馬頭観音）
-    demon: { top: "70%", left: "70%", width: "20%", height: "15%" }, // 右下（十一面観音）
-    chain: { top: "70%", left: "10%", width: "20%", height: "15%" }, // 左下（不空缂索観音）
-    grudge: { top: "50%", left: "5%", width: "20%", height: "15%" }, // 左中（准胝観音）
-    sword: { top: "30%", left: "10%", width: "20%", height: "15%" }, // 左上（如意輪観音）
+    fire: { top: "10%", left: "35%", width: "30%", height: "20%" }, // 上部中央（聖観音）
+    water: { top: "25%", left: "65%", width: "30%", height: "20%" }, // 右上（千手観音）
+    wind: { top: "45%", left: "70%", width: "30%", height: "20%" }, // 右中（馬頭観音）
+    demon: { top: "65%", left: "65%", width: "30%", height: "20%" }, // 右下（十一面観音）
+    chain: { top: "65%", left: "5%", width: "30%", height: "20%" }, // 左下（不空缂索観音）
+    grudge: { top: "45%", left: "0%", width: "30%", height: "20%" }, // 左中（准胝観音）
+    sword: { top: "25%", left: "5%", width: "30%", height: "20%" }, // 左上（如意輪観音）
   };
 
   const handleKannonPress = (nanType: NanType) => {

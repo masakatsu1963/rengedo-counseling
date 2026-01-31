@@ -31,7 +31,7 @@ export default function KannonDetailScreen() {
               source={{ uri: kannonData.imageUrl }}
               style={{
                 width: "100%",
-                height: 250,
+                height: 500,
               }}
               resizeMode="cover"
             />
@@ -66,7 +66,7 @@ export default function KannonDetailScreen() {
               </Text>
               <Text
                 className="text-xl text-center"
-                style={{ color: colors.muted }}
+                style={{ color: "#666666" }}
               >
                 {kannonData.nanName}
               </Text>
@@ -79,13 +79,13 @@ export default function KannonDetailScreen() {
             >
               <Text
                 className="text-lg font-bold mb-3"
-                style={{ color: colors.foreground }}
+                style={{ color: "#000000" }}
               >
                 どのような難を救うか
               </Text>
               <Text
                 className="text-base leading-relaxed"
-                style={{ color: colors.foreground }}
+                style={{ color: "#000000" }}
               >
                 {kannonData.description}
               </Text>
@@ -98,13 +98,13 @@ export default function KannonDetailScreen() {
             >
               <Text
                 className="text-lg font-bold mb-3"
-                style={{ color: colors.foreground }}
+                style={{ color: "#000000" }}
               >
                 観音様の特徴
               </Text>
               <Text
                 className="text-base leading-relaxed"
-                style={{ color: colors.foreground }}
+                style={{ color: "#000000" }}
               >
                 {kannonData.persona}
               </Text>
