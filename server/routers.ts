@@ -126,14 +126,21 @@ export const appRouter = router({
         // メッセージ数に応じてシステムプロンプトを調整
         const userMessageCount = input.messages.filter(msg => msg.role === "user").length;
         const isFirstMessage = userMessageCount === 1;
+        const isSecondTurn = userMessageCount === 2;
         const isThirdTurn = userMessageCount >= 3;
+        
+        // 「まとめと提案」ボタンからのリクエストかどうかを判定
+        const lastUserMessage = input.messages.filter(msg => msg.role === "user").slice(-1)[0]?.content || "";
+        const isSummaryRequest = lastUserMessage.includes("まとめ") && lastUserMessage.includes("提案");
         
         let systemPrompt = kannonData.persona;
         
         if (isFirstMessage) {
           systemPrompt = `あなたは${kannonData.name}です。${kannonData.persona}\n\n【絶対に守るべきルール】\n1. 自己紹介や挨拶は一切しないでください。\n2. 最初の返信では、必ずユーザーが話した悩みの内容を、自分の言葉で繰り返してください。\n3. 例: 「仕事でストレスがたまっています」→「仕事でのストレスに苦しんでいらっしゃるのですね。」\n4. その後、共感の言葉を添え、詳しく聞くための質問をしてください。`;
-        } else if (isThirdTurn) {
-          systemPrompt = `あなたは${kannonData.name}です。${kannonData.persona}\n\n【重要な指示】\n1. これまでの対話で問題が明確になってきました。\n2. ユーザーの悩みに対して、具体的な対策や行動の提案をしてください。\n3. 提案は実行可能で、ユーザーが今日から始められるような具体的なものにしてください。\n4. 例: 「まずは、毎日5分だけでも自分のための時間を作ってみてはいかがでしょうか」\n5. 提案の後、ユーザーがどう感じているか、実行できそうかを確認してください。`;
+        } else if (isSecondTurn) {
+          systemPrompt = `あなたは${kannonData.name}です。${kannonData.persona}\n\n【2ターン目の指示】\n1. ユーザーの追加情報に共感し、問題の全体像を把握してください。\n2. 基本的にはこのターンで聞き取りを終了します。\n3. ただし、ユーザーが新たな事例や追加情報を話した場合は、それについても質問を続けてください。\n4. 問題が明確になったら、次のターンで具体的な提案ができるように準備してください。`;
+        } else if (isSummaryRequest || isThirdTurn) {
+          systemPrompt = `あなたは${kannonData.name}です。${kannonData.persona}\n\n【まとめと提案の指示】\n1. これまでの対話で問題が明確になってきました。\n2. まず、ユーザーの悩みを簡潔にまとめてください（2-3文程度）。\n3. 次に、具体的な対策や行動の提案を2-3個してください。\n4. 提案は実行可能で、ユーザーが今日から始められるような具体的なものにしてください。\n5. 例: 「まずは、毎日5分だけでも自分のための時間を作ってみてはいかがでしょうか」\n6. 最後に、ユーザーがどう感じているか、実行できそうかを確認してください。`;
         }
 
         const llmMessages = [

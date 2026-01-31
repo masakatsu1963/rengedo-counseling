@@ -41,6 +41,7 @@ export default function ChatScreen() {
   const [messages, setMessages] = useState<ChatMessage[]>([]);
   const [inputText, setInputText] = useState("");
   const [sessionId] = useState(() => generateId());
+  const [showSummaryButton, setShowSummaryButton] = useState(false);
 
   const chatMutation = trpc.chat.useMutation();
 
@@ -99,6 +100,12 @@ export default function ChatScreen() {
 
       const updatedMessages = [...newMessages, kannonMessage];
       setMessages(updatedMessages);
+
+      // 3ターン目以降は「まとめと提案」ボタンを表示
+      const userMessageCount = updatedMessages.filter(msg => msg.role === "user").length;
+      if (userMessageCount >= 3) {
+        setShowSummaryButton(true);
+      }
 
       // セッションを保存
       const session: ConsultationSession = {
@@ -225,6 +232,23 @@ export default function ChatScreen() {
             borderTopColor: colors.border,
           }}
         >
+          {/* まとめと提案ボタン（3ターン目から表示） */}
+          {showSummaryButton && (
+            <TouchableOpacity
+              onPress={() => {
+                setInputText("これまでの話をまとめて、具体的な提案をしてください。");
+              }}
+              activeOpacity={0.7}
+              className="mb-2 px-4 py-2 rounded-full"
+              style={{
+                backgroundColor: kannonData.colorTheme.primary,
+              }}
+            >
+              <Text className="text-white text-center font-semibold">
+                まとめと提案を聞く
+              </Text>
+            </TouchableOpacity>
+          )}
           <View className="flex-row items-center">
             <TextInput
               value={inputText}
