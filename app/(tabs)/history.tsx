@@ -58,16 +58,38 @@ export default function HistoryScreen() {
     grudge: "人間関係の対立や恨み",
   };
 
+  // 難の名称マップ
+  const nanNames: Record<NanType, string> = {
+    fire: "火の難",
+    water: "水の難",
+    wind: "風の難",
+    demon: "鬼の難",
+    sword: "刀の難",
+    chain: "鎖の難",
+    grudge: "怨の難",
+  };
+
+  // 難の色マップ
+  const nanColors: Record<NanType, string> = {
+    fire: "#C0504D",
+    water: "#C9302C",
+    wind: "#6FA868",
+    demon: "#8E7CC3",
+    sword: "#D4A373",
+    chain: "#4A6FA5",
+    grudge: "#76A5AF",
+  };
+
   // レーダーチャート用のデータ
   const radarData = {
     labels: [
-      `火の難\n${nanDescriptions.fire}`,
-      `水の難\n${nanDescriptions.water}`,
-      `風の難\n${nanDescriptions.wind}`,
-      `鬼の難\n${nanDescriptions.demon}`,
-      `刀の難\n${nanDescriptions.sword}`,
-      `鎖の難\n${nanDescriptions.chain}`,
-      `怨の難\n${nanDescriptions.grudge}`,
+      nanNames.fire,
+      nanNames.water,
+      nanNames.wind,
+      nanNames.demon,
+      nanNames.sword,
+      nanNames.chain,
+      nanNames.grudge,
     ],
     datasets: [
       {
@@ -136,11 +158,18 @@ export default function HistoryScreen() {
                     const maxCount = Math.max(...radarData.datasets[0].data);
                     const percentage = maxCount > 0 ? (count / maxCount) * 100 : 0;
                     
+                    // 難のタイプを取得
+                    const nanTypes: NanType[] = ["fire", "water", "wind", "demon", "sword", "chain", "grudge"];
+                    const nanType = nanTypes[parseInt(index)];
+                    const nanColor = nanColors[nanType];
+                    const description = nanDescriptions[nanType];
+                    
                     return (
                       <View key={index}>
                         <View className="flex-row justify-between mb-1">
-                          <Text className="text-sm" style={{ color: "#666666", lineHeight: 20 }}>
-                            {label}
+                          <Text className="text-sm" style={{ lineHeight: 20 }}>
+                            <Text style={{ color: nanColor, fontWeight: "600" }}>{label}</Text>
+                            <Text style={{ color: "#000000" }}> - {description}</Text>
                           </Text>
                           <Text className="text-sm font-semibold" style={{ color: "#8A2BE2" }}>
                             {count}回
