@@ -236,9 +236,69 @@ export default function ChatScreen() {
           {showSummaryButton && (
             <View className="mb-2 flex-row gap-2">
               <TouchableOpacity
-                onPress={() => {
-                  setInputText("これまでの話をまとめて、具体的な提案をしてください。");
+                onPress={async () => {
                   setShowSummaryButton(false);
+                  
+                  const summaryMessage: ChatMessage = {
+                    id: generateId(),
+                    role: "user",
+                    content: "これまでの話をまとめて、具体的な提案をしてください。",
+                    timestamp: Date.now(),
+                  };
+
+                  const newMessages = [...messages, summaryMessage];
+                  setMessages(newMessages);
+
+                  setTimeout(() => {
+                    flatListRef.current?.scrollToEnd({ animated: true });
+                  }, 100);
+
+                  try {
+                    const llmMessages = newMessages.map((msg) => ({
+                      role: msg.role === "kannon" ? ("assistant" as const) : ("user" as const),
+                      content: msg.content,
+                    }));
+
+                    const response = await chatMutation.mutateAsync({
+                      nanType,
+                      messages: llmMessages,
+                    });
+
+                    const kannonMessage: ChatMessage = {
+                      id: generateId(),
+                      role: "kannon",
+                      content: response.content as string,
+                      timestamp: Date.now(),
+                    };
+
+                    const updatedMessages = [...newMessages, kannonMessage];
+                    setMessages(updatedMessages);
+
+                    const session: ConsultationSession = {
+                      id: sessionId,
+                      nanType,
+                      kannonName: kannonData.name,
+                      userConcern: concern,
+                      messages: updatedMessages,
+                      createdAt: Date.now(),
+                      updatedAt: Date.now(),
+                    };
+                    await saveConsultation(session);
+
+                    setTimeout(() => {
+                      const lastIndex = updatedMessages.length - 1;
+                      if (lastIndex >= 0) {
+                        flatListRef.current?.scrollToIndex({
+                          index: lastIndex,
+                          animated: true,
+                          viewPosition: 0,
+                        });
+                      }
+                    }, 100);
+                  } catch (error) {
+                    console.error("Chat error:", error);
+                    alert("メッセージの送信に失敗しました。もう一度お試しください。");
+                  }
                 }}
                 activeOpacity={0.7}
                 className="flex-1 px-4 py-2 rounded-full"
