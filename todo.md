@@ -399,4 +399,19 @@
 ## スプラッシュ画面の画像を新しいロゴ画像に更新
 - [x] アップロードされたrengedo.pngをassets/images/splash-icon.pngにコピー
 - [x] 動作確認
+- [x] チェックポイント作成
+
+## アプリアイコンを新しいロゴに更新
+- [x] rengedo.pngをassets/images/icon.pngにコピー
+- [x] rengedo.pngをassets/images/android-icon-foreground.pngにコピー
+- [x] rengedo.pngをassets/images/favicon.pngにコピー
+- [x] 動作確認
+
+## 七観音とは？の相関図からのリンクを修正
+- [x] 相関図のタップ領域を一番上から時計回りで「聖観音」「千手観音」「馬頭観音」「十一面観音」「不空缂索観音」「准胝観音」「如意輪観音」に修正
+- [x] 動作確認
+
+## 各ページのシンボルカラー表記を削除
+- [x] 観音様詳細ページからシンボルカラー表記を削除
+- [x] 動作確認
 - [ ] チェックポイント作成

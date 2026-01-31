@@ -110,34 +110,7 @@ export default function KannonDetailScreen() {
               </Text>
             </View>
 
-            {/* カラーテーマカード */}
-            <View
-              className="bg-white rounded-2xl p-6 shadow-sm"
-              style={{ borderWidth: 1, borderColor: colors.border }}
-            >
-              <Text
-                className="text-lg font-bold mb-3"
-                style={{ color: colors.foreground }}
-              >
-                シンボルカラー
-              </Text>
-              <View className="flex-row gap-4 items-center">
-                <View
-                  style={{
-                    width: 60,
-                    height: 60,
-                    backgroundColor: kannonData.colorTheme.primary,
-                    borderRadius: 8,
-                  }}
-                />
-                <Text
-                  className="text-sm"
-                  style={{ color: colors.muted }}
-                >
-                  {kannonData.colorTheme.primary}
-                </Text>
-              </View>
-            </View>
+
           </View>
         </View>
       </ScrollView>
