@@ -78,7 +78,7 @@ export default function KannonSelectionScreen() {
               <View className="items-center mb-4">
                 <Image
                   source={{ uri: selectedKannon.imageUrl }}
-                  style={{ width: 200, height: 200, borderRadius: 12, marginBottom: 16 }}
+                  style={{ width: 260, height: 260, borderRadius: 12, marginBottom: 16 }}
                   contentFit="cover"
                 />
                 <Text
@@ -108,53 +108,7 @@ export default function KannonSelectionScreen() {
             </View>
           </View>
 
-          {/* 他の観音様を選ぶ */}
-          <View>
-            <Text
-              className="text-lg font-semibold mb-4"
-              style={{ color: colors.foreground }}
-            >
-              他の観音様を選ぶ
-            </Text>
-            <View className="gap-3">
-              {allKannon
-                .filter((k) => k.id !== nanType)
-                .map((kannon) => (
-                  <TouchableOpacity
-                    key={kannon.id}
-                    onPress={() => handleSelectKannon(kannon.id)}
-                    activeOpacity={0.7}
-                    className="flex-row items-center p-4 rounded-2xl"
-                    style={{
-                      backgroundColor: colors.surface,
-                      borderWidth: 1,
-                      borderColor: colors.border,
-                    }}
-                  >
-                    <View
-                      className="w-12 h-12 rounded-full items-center justify-center mr-4"
-                      style={{ backgroundColor: kannon.colorTheme.light }}
-                    >
-                      <Text className="text-2xl">🪷</Text>
-                    </View>
-                    <View className="flex-1">
-                      <Text
-                        className="text-base font-semibold mb-1"
-                        style={{ color: colors.foreground }}
-                      >
-                        {kannon.name}
-                      </Text>
-                      <Text
-                        className="text-sm"
-                        style={{ color: colors.muted }}
-                      >
-                        {kannon.nanName}
-                      </Text>
-                    </View>
-                  </TouchableOpacity>
-                ))}
-            </View>
-          </View>
+
         </View>
       </ScrollView>
       <AppFooter />
