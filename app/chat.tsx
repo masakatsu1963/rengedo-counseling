@@ -232,22 +232,41 @@ export default function ChatScreen() {
             borderTopColor: colors.border,
           }}
         >
-          {/* まとめと提案ボタン（3ターン目から表示） */}
+          {/* 選択ボタン（3ターン目から表示） */}
           {showSummaryButton && (
-            <TouchableOpacity
-              onPress={() => {
-                setInputText("これまでの話をまとめて、具体的な提案をしてください。");
-              }}
-              activeOpacity={0.7}
-              className="mb-2 px-4 py-2 rounded-full"
-              style={{
-                backgroundColor: kannonData.colorTheme.primary,
-              }}
-            >
-              <Text className="text-white text-center font-semibold">
-                まとめと提案を聞く
-              </Text>
-            </TouchableOpacity>
+            <View className="mb-2 flex-row gap-2">
+              <TouchableOpacity
+                onPress={() => {
+                  setInputText("これまでの話をまとめて、具体的な提案をしてください。");
+                  setShowSummaryButton(false);
+                }}
+                activeOpacity={0.7}
+                className="flex-1 px-4 py-2 rounded-full"
+                style={{
+                  backgroundColor: kannonData.colorTheme.primary,
+                }}
+              >
+                <Text className="text-white text-center font-semibold">
+                  まとめと提案を聞く
+                </Text>
+              </TouchableOpacity>
+              <TouchableOpacity
+                onPress={() => {
+                  setShowSummaryButton(false);
+                }}
+                activeOpacity={0.7}
+                className="flex-1 px-4 py-2 rounded-full"
+                style={{
+                  backgroundColor: colors.surface,
+                  borderWidth: 1,
+                  borderColor: kannonData.colorTheme.primary,
+                }}
+              >
+                <Text className="text-center font-semibold" style={{ color: kannonData.colorTheme.primary }}>
+                  相談を続ける
+                </Text>
+              </TouchableOpacity>
+            </View>
           )}
           <View className="flex-row items-center">
             <TextInput
