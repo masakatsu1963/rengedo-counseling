@@ -123,12 +123,18 @@ export const appRouter = router({
       try {
         const kannonData = getKannonByNan(input.nanType);
 
-        // 初回メッセージの場合は、相談内容を共感的に繰り返すように指示
-        const isFirstMessage = input.messages.length === 1 && input.messages[0].role === "user";
+        // メッセージ数に応じてシステムプロンプトを調整
+        const userMessageCount = input.messages.filter(msg => msg.role === "user").length;
+        const isFirstMessage = userMessageCount === 1;
+        const isThirdTurn = userMessageCount >= 3;
         
-        const systemPrompt = isFirstMessage
-          ? `あなたは${kannonData.name}です。${kannonData.persona}\n\n【絶対に守るべきルール】\n1. 自己紹介や挨拶は一切しないでください。\n2. 最初の返信では、必ずユーザーが話した悩みの内容を、自分の言葉で繰り返してください。\n3. 例: 「仕事でストレスがたまっています」→「仕事でのストレスに苦しんでいらっしゃるのですね。」\n4. その後、共感の言葉を添え、詳しく聞くための質問をしてください。`
-          : kannonData.persona;
+        let systemPrompt = kannonData.persona;
+        
+        if (isFirstMessage) {
+          systemPrompt = `あなたは${kannonData.name}です。${kannonData.persona}\n\n【絶対に守るべきルール】\n1. 自己紹介や挨拶は一切しないでください。\n2. 最初の返信では、必ずユーザーが話した悩みの内容を、自分の言葉で繰り返してください。\n3. 例: 「仕事でストレスがたまっています」→「仕事でのストレスに苦しんでいらっしゃるのですね。」\n4. その後、共感の言葉を添え、詳しく聞くための質問をしてください。`;
+        } else if (isThirdTurn) {
+          systemPrompt = `あなたは${kannonData.name}です。${kannonData.persona}\n\n【重要な指示】\n1. これまでの対話で問題が明確になってきました。\n2. ユーザーの悩みに対して、具体的な対策や行動の提案をしてください。\n3. 提案は実行可能で、ユーザーが今日から始められるような具体的なものにしてください。\n4. 例: 「まずは、毎日5分だけでも自分のための時間を作ってみてはいかがでしょうか」\n5. 提案の後、ユーザーがどう感じているか、実行できそうかを確認してください。`;
+        }
 
         const llmMessages = [
           {
