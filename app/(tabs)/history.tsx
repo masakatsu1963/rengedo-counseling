@@ -80,16 +80,16 @@ export default function HistoryScreen() {
     grudge: "#76A5AF",
   };
 
-  // レーダーチャート用のデータ
+  // レーダーチャート用のデータ（刀の難を一番下に配置）
   const radarData = {
     labels: [
       nanNames.fire,
       nanNames.water,
       nanNames.wind,
       nanNames.demon,
-      nanNames.sword,
       nanNames.chain,
       nanNames.grudge,
+      nanNames.sword,
     ],
     datasets: [
       {
@@ -98,9 +98,9 @@ export default function HistoryScreen() {
           nanCounts.water,
           nanCounts.wind,
           nanCounts.demon,
-          nanCounts.sword,
           nanCounts.chain,
           nanCounts.grudge,
+          nanCounts.sword,
         ],
       },
     ],
@@ -182,7 +182,7 @@ export default function HistoryScreen() {
                           <View
                             className="h-2 rounded-full"
                             style={{
-                              backgroundColor: "#8A2BE2",
+                              backgroundColor: nanColor,
                               width: `${percentage}%`,
                             }}
                           />
