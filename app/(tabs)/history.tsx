@@ -75,7 +75,7 @@ export default function HistoryScreen() {
     water: "#C9302C",
     wind: "#6FA868",
     demon: "#8E7CC3",
-    sword: "#D4A373",
+    sword: "#D4AF37",
     chain: "#4A6FA5",
     grudge: "#76A5AF",
   };
