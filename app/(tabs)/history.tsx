@@ -158,8 +158,8 @@ export default function HistoryScreen() {
                     const maxCount = Math.max(...radarData.datasets[0].data);
                     const percentage = maxCount > 0 ? (count / maxCount) * 100 : 0;
                     
-                    // 難のタイプを取得
-                    const nanTypes: NanType[] = ["fire", "water", "wind", "demon", "sword", "chain", "grudge"];
+                    // 難のタイプを取得（radarData.labelsの順序と一致）
+                    const nanTypes: NanType[] = ["fire", "water", "wind", "demon", "chain", "grudge", "sword"];
                     const nanType = nanTypes[parseInt(index)];
                     const nanColor = nanColors[nanType];
                     const description = nanDescriptions[nanType];
