@@ -1,4 +1,5 @@
-import { View, Text, TouchableOpacity, ScrollView, Image, TextInput, Modal } from "react-native";
+import { ScrollView, Text, View, TouchableOpacity, Image, TextInput, Modal, Platform } from "react-native";
+import { Picker } from "@react-native-picker/picker";
 import { useRouter } from "expo-router";
 import { ScreenContainer } from "@/components/screen-container";
 import { useColors } from "@/hooks/use-colors";
@@ -195,20 +196,32 @@ export default function HomeScreen() {
               <Text className="text-sm mb-2" style={{ color: colors.foreground }}>
                 年齢
               </Text>
-              <TextInput
-                value={tempPersonalData.age || ""}
-                onChangeText={(text) => setTempPersonalData({ ...tempPersonalData, age: text })}
-                placeholder="例: 30代"
-                placeholderTextColor={colors.muted}
+              <View
                 style={{
                   backgroundColor: colors.surface,
                   borderWidth: 1,
                   borderColor: colors.border,
                   borderRadius: 8,
-                  padding: 12,
-                  color: colors.foreground,
+                  overflow: "hidden",
                 }}
-              />
+              >
+                <Picker
+                  selectedValue={tempPersonalData.age || ""}
+                  onValueChange={(value) => setTempPersonalData({ ...tempPersonalData, age: value })}
+                  style={{
+                    color: colors.foreground,
+                  }}
+                >
+                  <Picker.Item label="選択してください" value="" />
+                  <Picker.Item label="10代" value="10代" />
+                  <Picker.Item label="20代" value="20代" />
+                  <Picker.Item label="30代" value="30代" />
+                  <Picker.Item label="40代" value="40代" />
+                  <Picker.Item label="50代" value="50代" />
+                  <Picker.Item label="60代" value="60代" />
+                  <Picker.Item label="70代以上" value="70代以上" />
+                </Picker>
+              </View>
             </View>
 
             {/* 性別入力 */}
@@ -216,20 +229,28 @@ export default function HomeScreen() {
               <Text className="text-sm mb-2" style={{ color: colors.foreground }}>
                 性別
               </Text>
-              <TextInput
-                value={tempPersonalData.gender || ""}
-                onChangeText={(text) => setTempPersonalData({ ...tempPersonalData, gender: text })}
-                placeholder="例: 女性"
-                placeholderTextColor={colors.muted}
+              <View
                 style={{
                   backgroundColor: colors.surface,
                   borderWidth: 1,
                   borderColor: colors.border,
                   borderRadius: 8,
-                  padding: 12,
-                  color: colors.foreground,
+                  overflow: "hidden",
                 }}
-              />
+              >
+                <Picker
+                  selectedValue={tempPersonalData.gender || ""}
+                  onValueChange={(value) => setTempPersonalData({ ...tempPersonalData, gender: value })}
+                  style={{
+                    color: colors.foreground,
+                  }}
+                >
+                  <Picker.Item label="選択してください" value="" />
+                  <Picker.Item label="男性" value="男性" />
+                  <Picker.Item label="女性" value="女性" />
+                  <Picker.Item label="どちらでもない" value="どちらでもない" />
+                </Picker>
+              </View>
             </View>
 
             {/* 職業入力 */}
@@ -237,20 +258,31 @@ export default function HomeScreen() {
               <Text className="text-sm mb-2" style={{ color: colors.foreground }}>
                 職業
               </Text>
-              <TextInput
-                value={tempPersonalData.occupation || ""}
-                onChangeText={(text) => setTempPersonalData({ ...tempPersonalData, occupation: text })}
-                placeholder="例: 会社員"
-                placeholderTextColor={colors.muted}
+              <View
                 style={{
                   backgroundColor: colors.surface,
                   borderWidth: 1,
                   borderColor: colors.border,
                   borderRadius: 8,
-                  padding: 12,
-                  color: colors.foreground,
+                  overflow: "hidden",
                 }}
-              />
+              >
+                <Picker
+                  selectedValue={tempPersonalData.occupation || ""}
+                  onValueChange={(value) => setTempPersonalData({ ...tempPersonalData, occupation: value })}
+                  style={{
+                    color: colors.foreground,
+                  }}
+                >
+                  <Picker.Item label="選択してください" value="" />
+                  <Picker.Item label="学生" value="学生" />
+                  <Picker.Item label="社会人" value="社会人" />
+                  <Picker.Item label="自営業" value="自営業" />
+                  <Picker.Item label="主婦/主夫" value="主婦/主夫" />
+                  <Picker.Item label="無職" value="無職" />
+                  <Picker.Item label="その他" value="その他" />
+                </Picker>
+              </View>
             </View>
 
             {/* ボタンエリア */}
