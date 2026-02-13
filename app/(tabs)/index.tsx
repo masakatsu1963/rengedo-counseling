@@ -93,10 +93,10 @@ export default function HomeScreen() {
             {/* タイトルエリア */}
             <View className="items-center mb-8">
               <Text
-                className="text-center mb-1"
+                className="text-center mb-2"
                 style={{ color: colors.muted, fontSize: 17 }}
               >
-                AI観音様による{"\n"}対話型カウンセリングルーム
+                AI観音様によるカウンセリングルーム
               </Text>
               <Text
                 className="font-bold text-center"
