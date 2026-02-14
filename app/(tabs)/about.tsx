@@ -11,8 +11,7 @@ import { type NanType } from "@/constants/kannon-data";
 export default function AboutScreen() {
   const colors = useColors();
   const router = useRouter();
-  const screenWidth = Dimensions.get("window").width;
-  const imageWidth = screenWidth * 0.7;
+  const imageWidth = 300;
 
   // 相関図上の各観音様の位置（画像サイズに対する相対的な位置）
   // 一番上から時計回り：聖観音、千手観音、馬頭観音、十一面観音、不空缂索観音、准胝観音、如意輪観音
