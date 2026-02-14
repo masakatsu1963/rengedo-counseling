@@ -76,12 +76,12 @@ export default function HomeScreen() {
       <ScrollView contentContainerStyle={{ flexGrow: 1 }}>
         <View className="flex-1">
           {/* 四季の蓮華堂画像 - 画面上部いっぱい、左右いっぱい */}
-          <View style={{ height: 400, width: "100%", overflow: "hidden" }}>
+          <View style={{ height: 280, width: "100%", overflow: "hidden" }}>
             <Image
               source={seasonalImage}
               style={{
                 width: "100%",
-                height: 430,
+                height: 301,
                 marginTop: 0,
               }}
               resizeMode="cover"
