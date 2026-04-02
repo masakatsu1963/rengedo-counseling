@@ -103,6 +103,12 @@ export default function HomeScreen() {
                 style={{ width: 240, height: 80 }}
                 resizeMode="contain"
               />
+              <Text
+                className="text-center"
+                style={{ color: colors.muted, fontSize: 12, letterSpacing: 8, marginTop: 4 }}
+              >
+                れんげどう
+              </Text>
             </View>
 
             {/* メッセージ */}
