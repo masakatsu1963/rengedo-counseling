@@ -98,12 +98,11 @@ export default function HomeScreen() {
               >
                 AI観音様によるカウンセリングルーム
               </Text>
-              <Text
-                className="font-bold text-center"
-                style={{ color: colors.foreground, fontSize: 50 }}
-              >
-                蓮華堂
-              </Text>
+              <Image
+                source={require("@/assets/images/rengedo-title.png")}
+                style={{ width: 240, height: 80 }}
+                resizeMode="contain"
+              />
             </View>
 
             {/* メッセージ */}
