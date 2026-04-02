@@ -16,7 +16,7 @@ export function AppFooter() {
   };
 
   const handleHistory = () => {
-    router.push("/history");
+    router.push("/(tabs)/history" as any);
   };
 
   return (
