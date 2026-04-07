@@ -842,7 +842,10 @@ async function sendMessage() {
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(payload),
     });
-    if (!res.ok) throw new Error("送信に失敗しました");
+    if (!res.ok) {
+      const errData = await res.json().catch(() => ({}));
+      throw new Error(errData.detail || errData.error || `送信エラー(${res.status})`);
+    }
     const data = await res.json();
     const reply = data.content;
 
@@ -888,7 +891,10 @@ async function requestSummary() {
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ nanType: state.nanType, messages: llmMessages }),
     });
-    if (!res.ok) throw new Error("送信に失敗しました");
+    if (!res.ok) {
+      const errData = await res.json().catch(() => ({}));
+      throw new Error(errData.detail || errData.error || `送信エラー(${res.status})`);
+    }
     const data = await res.json();
     appendMessage("kannon", data.content);
     state.messages.push({ role: "kannon", content: data.content });
