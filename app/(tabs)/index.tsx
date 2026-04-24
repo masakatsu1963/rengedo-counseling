@@ -6,6 +6,14 @@ import { useColors } from "@/hooks/use-colors";
 import { useMemo, useState, useEffect } from "react";
 import { PersonalData, loadPersonalData, savePersonalData } from "@/lib/personal-data";
 
+// 四季の画像URL（CDN）
+const SEASONAL_IMAGES = {
+  spring: { uri: "https://d2xsxph8kpxj0f.cloudfront.net/310519663145989169/9brukFX77EXB8hSwb3muxY/spring_434b8d17.png" },
+  summer: { uri: "https://d2xsxph8kpxj0f.cloudfront.net/310519663145989169/9brukFX77EXB8hSwb3muxY/summer_034af938.png" },
+  fall:   { uri: "https://d2xsxph8kpxj0f.cloudfront.net/310519663145989169/9brukFX77EXB8hSwb3muxY/fall_0447326e.png" },
+  winter: { uri: "https://d2xsxph8kpxj0f.cloudfront.net/310519663145989169/9brukFX77EXB8hSwb3muxY/winter_9944fb2a.png" },
+};
+
 /**
  * 現在の月に応じて四季の画像を取得する関数
  */
@@ -14,16 +22,16 @@ function getSeasonalImage() {
   
   if (month >= 3 && month <= 5) {
     // 春（3-5月）
-    return require("@/assets/images/spring.png");
+    return SEASONAL_IMAGES.spring;
   } else if (month >= 6 && month <= 8) {
     // 夏（6-8月）
-    return require("@/assets/images/summer.png");
+    return SEASONAL_IMAGES.summer;
   } else if (month >= 9 && month <= 11) {
     // 秋（9-11月）
-    return require("@/assets/images/fall.png");
+    return SEASONAL_IMAGES.fall;
   } else {
     // 冬（12-2月）
-    return require("@/assets/images/winter.png");
+    return SEASONAL_IMAGES.winter;
   }
 }
 

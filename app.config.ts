@@ -29,7 +29,7 @@ const schemeFromBundleId = `manus${timestamp}`;
 const env = {
   // App branding - update these values directly (do not use env vars)
   appName: "AI観音様によるカウンセリングルーム 蓮華堂",
-  appSlug: "{{project_name}}",
+  appSlug: "rengedo-counseling",
   // S3 URL of the app logo - set this to the URL returned by generate_image when creating custom logo
   // Leave empty to use the default icon from assets/images/icon.png
   logoUrl: "https://files.manuscdn.com/user_upload_by_module/session_file/310519663145989169/QKItOjazDZuCItZn.png",
@@ -124,6 +124,11 @@ const config: ExpoConfig = {
   experiments: {
     typedRoutes: true,
     reactCompiler: true,
+  },
+  extra: {
+    eas: {
+      projectId: "86e11c68-5371-4cf9-ac40-bd54d6d89bb2",
+    },
   },
 };
 
