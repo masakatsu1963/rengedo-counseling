@@ -202,8 +202,8 @@ export default function HistoryScreen() {
             className="bg-white rounded-2xl p-6 shadow-sm mt-8"
             style={{ borderWidth: 1, borderColor: "#E5E7EB" }}
           >
-            <Text className="text-sm text-center mb-2" style={{ color: "#666666" }}>
-              様々な、お悩み相談窓口をご案内します。
+            <Text className="text-xs text-center mb-2" style={{ color: "#666666", lineHeight: 18 }}>
+              本システムは、カウンセリングを体験していただくもので、カウンセリングを代替するものではありません。本格的なカウンセリングは、専門のクリニックや心療内科にご相談ください。
             </Text>
             <TouchableOpacity
               onPress={() => Linking.openURL("http://www.artam.asia/rengedo/")}
