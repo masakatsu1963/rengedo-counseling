@@ -16,9 +16,14 @@
     "db:push": "drizzle-kit generate && drizzle-kit migrate",
     "android": "expo start --android",
     "ios": "expo start --ios",
-    "qr": "node scripts/generate_qr.mjs"
+    "qr": "node scripts/generate_qr.mjs",
+    "build:server:render": "esbuild server/render-server.ts --platform=node --packages=external --bundle --format=esm --outdir=dist",
+    "build:web": "EXPO_PUBLIC_API_BASE_URL= npx expo export --platform web --output-dir dist/web",
+    "build:render": "pnpm build:web && pnpm build:server:render",
+    "start:render": "NODE_ENV=production node dist/render-server.js"
   },
   "dependencies": {
+    "@anthropic-ai/sdk": "^0.92.0",
     "@expo/vector-icons": "^15.0.3",
     "@react-native-async-storage/async-storage": "^2.2.0",
     "@react-native-picker/picker": "^2.11.4",

@@ -5,6 +5,44 @@ import { systemRouter } from "./_core/systemRouter";
 import { publicProcedure, router } from "./_core/trpc";
 import { invokeLLM } from "./_core/llm";
 import { getAllKannon, getKannonByNan, type NanType } from "../constants/kannon-data";
+import Anthropic from "@anthropic-ai/sdk";
+
+/**
+ * LLMを呼び出す共通関数
+ * ANTHROPIC_API_KEY が設定されていればClaude API、なければManusのForge APIにフォールバック
+ */
+async function callLLM(params: {
+  systemPrompt: string;
+  messages: { role: "user" | "assistant"; content: string }[];
+  jsonMode?: boolean;
+}): Promise<string> {
+  const anthropicKey = process.env.ANTHROPIC_API_KEY;
+
+  if (anthropicKey) {
+    // Claude API を使用
+    const client = new Anthropic({ apiKey: anthropicKey });
+    const response = await client.messages.create({
+      model: "claude-3-5-sonnet-20241022",
+      max_tokens: 2048,
+      system: params.systemPrompt,
+      messages: params.messages,
+    });
+    const block = response.content[0];
+    if (block.type !== "text") throw new Error("Unexpected response type from Claude");
+    return block.text;
+  } else {
+    // Manus Forge API にフォールバック（開発環境用）
+    const llmMessages = [
+      { role: "system" as const, content: params.systemPrompt },
+      ...params.messages.map((m) => ({ role: m.role as "user" | "assistant", content: m.content })),
+    ];
+    const response = await invokeLLM({
+      messages: llmMessages,
+      ...(params.jsonMode ? { response_format: { type: "json_object" as const } } : {}),
+    });
+    return response.choices[0].message.content as string;
+  }
+}
 
 export const appRouter = router({
   // if you need to use socket.io, read and register route in server/_core/index.ts, all api should start with '/api/' so that the gateway can route correctly
@@ -56,28 +94,19 @@ export const appRouter = router({
    - いじめ、嫌がらせ、誹謗中傷、名誉毀損、ネットいじめ、サイバーハラスメント、ヘイトクライム、差別的な言動
 
 ユーザーの悩みを読み、最も適切な「難」を1つだけ選んでください。
-回答は以下のJSON形式で返してください:
-{
-  "nanType": "fire" | "water" | "wind" | "demon" | "sword" | "chain" | "grudge",
-  "reason": "この難に分類した理由を1文で"
-}`;
+回答は以下のJSON形式のみで返してください（他のテキストは一切含めないでください）:
+{"nanType": "fire" | "water" | "wind" | "demon" | "sword" | "chain" | "grudge", "reason": "この難に分類した理由を1文で"}`;
 
       try {
-        const response = await invokeLLM({
-          messages: [
-            {
-              role: "system",
-              content: CLASSIFICATION_SYSTEM_PROMPT,
-            },
-            {
-              role: "user",
-              content: input.concern,
-            },
-          ],
-          response_format: { type: "json_object" },
+        const text = await callLLM({
+          systemPrompt: CLASSIFICATION_SYSTEM_PROMPT,
+          messages: [{ role: "user", content: input.concern }],
+          jsonMode: true,
         });
 
-        const result = JSON.parse(response.choices[0].message.content as string);
+        // JSONを抽出（Claudeはマークダウンコードブロックで返すことがある）
+        const jsonMatch = text.match(/\{[\s\S]*\}/);
+        const result = JSON.parse(jsonMatch ? jsonMatch[0] : text);
         const nanType = result.nanType as NanType;
 
         const kannonForValidation = getKannonByNan(nanType);
@@ -132,18 +161,17 @@ export const appRouter = router({
         const userMessageCount = input.messages.filter(msg => msg.role === "user").length;
         const isFirstMessage = userMessageCount === 1;
         const isSecondTurn = userMessageCount === 2;
-        const isThirdTurn = userMessageCount >= 3;
-        
+
         // 「まとめと提案」ボタンからのリクエストかどうかを判定
         const lastUserMessage = input.messages.filter(msg => msg.role === "user").slice(-1)[0]?.content || "";
         const isSummaryRequest = lastUserMessage.includes("まとめ") && lastUserMessage.includes("提案");
-        
-        // まとめ後に相談が続いているか判定（まとめリクエストが履歴にあり、その後もユーザーが発言している場合）
+
+        // まとめ後に相談が続いているか判定
         const hasSummaryInHistory = input.messages.some(
           (msg) => msg.role === "user" && msg.content.includes("まとめ") && msg.content.includes("提案")
         );
         const isAfterSummary = hasSummaryInHistory && !isSummaryRequest;
-        
+
         // パーソナルデータを含むコンテキスト情報を作成
         let personalContext = "";
         if (input.personalData) {
@@ -156,39 +184,27 @@ export const appRouter = router({
             personalContext = `\n\n【相談者の情報】\n${parts.join(", ")}\n※この情報を踏まえて、より適切なアドバイスをしてください。`;
           }
         }
-        
+
         let systemPrompt = kannonData.persona;
-        
+
         if (isFirstMessage) {
-          systemPrompt = `あなたは${kannonData.name}です。${kannonData.persona}${personalContext}\n\n【絶対に守るべきルール】\n1. 自己紹介や挨拶は一切しないでください。\n2. 最初の返信では、必ずユーザーが話した悩みの内容を、自分の言葉で繰り返してください。\n3. 例: 「仕事でストレスがたまっています」→「仕事でのストレスに苦しんでいらっしゃるのですね。」\n4. その後、共感の言葉を添え、詳しく聞くための質問をしてください。`;
+          systemPrompt = `あなたは${kannonData.name}です。${kannonData.persona}${personalContext}\n\n【絶対に守るべきルール】\n1. 自己紹介や挨拶は一切しないでください。\n2. 最初の返信では、必ずユーザーが話した悩みの内容を、自分の言葉で繰り返してください。\n3. 例: 「仕事でのストレスが溜まっています」→「仕事でのストレスに苦しんでいらっしゃるのですね。」\n4. その後、共感の言葉を添え、詳しく聞くための質問をしてください。`;
         } else if (isSecondTurn) {
           systemPrompt = `あなたは${kannonData.name}です。${kannonData.persona}${personalContext}\n\n【2ターン目の指示】\n1. ユーザーの追加情報に共感し、問題の全体像を把握してください。\n2. ユーザーが新たな事例や追加情報を話した場合は、それについても質問を続けてください。\n3. 対話を通じて、ユーザーの悩みを深く理解するよう努めてください。`;
         } else if (isSummaryRequest) {
           systemPrompt = `あなたは${kannonData.name}です。${kannonData.persona}${personalContext}\n\n【まとめと提案の指示】\n1. これまでの対話で問題が明確になってきました。\n2. まず、ユーザーの悩みを簡潔にまとめてください（2-3文程度）。\n3. 次に、具体的な対策や行動の提案を2-3個してください。\n4. 提案は実行可能で、ユーザーが今日から始められるような具体的なものにしてください。\n5. 提案の後、ユーザーがどう感じているか、実行できそうかを確認してください。\n6. 専門機関への言及はこの時点では一切しないでください。`;
         } else if (isAfterSummary) {
-          systemPrompt = `あなたは${kannonData.name}です。${kannonData.persona}${personalContext}\n\n【まとめ後も相談が続いている場合の指示】\n1. ユーザーの話に引き続き共感し、対話を続けてください。\n2. ユーザーの言葉に「死にたい」「消えたい」「自殺」「自傷」「生きていても意味がない」などの危機サインが含まれる場合は、必ず即座にいのちの電話相談窓口（Ⅰリンク：0120-783-556）を案内してください。\n3. ユーザーの悩みが深刻で、セルフケアだけでは対応が難しいと判断した場合に限り、以下のように専門機関を案内してください（必ず専門機関を出す必要はありません）：\n   - 心の健康→心の健康相談統一ダイヤル（0570-064-556）\n   - DV・ハラスメント→DV相談ナビ（0570-0-55210）\n   - 法律問題→法テラス（0570-078374）\n   - 労働問題→労働条件相談ホットライン（0120-811-610）\n   - 金錢問題→法テラス（0570-078374）`;
+          systemPrompt = `あなたは${kannonData.name}です。${kannonData.persona}${personalContext}\n\n【まとめ後も相談が続いている場合の指示】\n1. ユーザーの話に引き続き共感し、対話を続けてください。\n2. ユーザーの言葉に「死にたい」「消えたい」「自殺」「自傷」「生きていても意味がない」などの危機サインが含まれる場合は、必ず即座にいのちの電話相談窓口（0120-783-556）を案内してください。\n3. ユーザーの悩みが深刻で、セルフケアだけでは対応が難しいと判断した場合に限り、以下のように専門機関を案内してください（必ず専門機関を出す必要はありません）：\n   - 心の健康→心の健康相談統一ダイヤル（0570-064-556）\n   - DV・ハラスメント→DV相談ナビ（0570-0-55210）\n   - 法律問題→法テラス（0570-078374）\n   - 労働問題→労働条件相談ホットライン（0120-811-610）\n   - 金銭問題→法テラス（0570-078374）`;
         } else {
-          systemPrompt = `あなたは${kannonData.name}です。${kannonData.persona}${personalContext}\n\n【対話の指示】\n1. ユーザーの話に共感し、深く理解するよう努めてください。\n2. 必要に応じて質問を続け、問題の本質を探ってください。\n3. 焦らず、ユーザーのペースに合わせて対話を進めてください。\n4. 4ターン目以降は、応答の最後に以下のようなメッセージを追加してください：\n   「お話をうかがってまいりました。よろしければ、これまでのお話をさらっとよまとめて、これからのことを少し考えてみることもできます。下のボタンから、ご自分のペースでどうぞ。もちろん、このままお話を続けていただいても構いません。」`;
+          systemPrompt = `あなたは${kannonData.name}です。${kannonData.persona}${personalContext}\n\n【対話の指示】\n1. ユーザーの話に共感し、深く理解するよう努めてください。\n2. 必要に応じて質問を続け、問題の本質を探ってください。\n3. 焦らず、ユーザーのペースに合わせて対話を進めてください。\n4. 4ターン目以降は、応答の最後に以下のようなメッセージを追加してください：\n   「お話をうかがってまいりました。よろしければ、これまでのお話をさらっとまとめて、これからのことを少し考えてみることもできます。下のボタンから、ご自分のペースでどうぞ。もちろん、このままお話を続けていただいても構いません。」`;
         }
 
-        const llmMessages = [
-          {
-            role: "system" as const,
-            content: systemPrompt,
-          },
-          ...input.messages.map((msg) => ({
-            role: msg.role as "user" | "assistant",
-            content: msg.content,
-          })),
-        ];
-
-        const response = await invokeLLM({
-          messages: llmMessages,
+        const content = await callLLM({
+          systemPrompt,
+          messages: input.messages,
         });
 
-        return {
-          content: response.choices[0].message.content,
-        };
+        return { content };
       } catch (error) {
         console.error("Chat error:", error);
         throw new Error("カウンセリング対話の生成に失敗しました");
