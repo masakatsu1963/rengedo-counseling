@@ -189,14 +189,14 @@ export default function ChatScreen() {
         className="flex-1"
         keyboardVerticalOffset={0}
       >
-        {/* 観音様の画像（高さを固定120pxに縮小） */}
+        {/* 観音様の画像（画面幅いっぱい、高さ悩％） */}
         {kannonData?.chatImageUrl && (
-          <View className="w-full overflow-hidden" style={{ height: 120 }}>
+          <View className="w-full overflow-hidden" style={{ aspectRatio: 16 / (9 * 0.6) }}>
             <Image
               source={{ uri: kannonData.chatImageUrl }}
               style={{ width: '100%', height: '100%' }}
               resizeMode="cover"
-          />
+            />
           </View>
         )}
 
@@ -231,14 +231,16 @@ export default function ChatScreen() {
           renderItem={renderMessage}
           contentContainerStyle={{ padding: 16, paddingBottom: 8 }}
           ListHeaderComponent={
-            <View
-              className="rounded-xl p-3 mb-4"
-              style={{ backgroundColor: "#FFF8E1", borderWidth: 1, borderColor: "#F0C040" }}
-            >
-              <Text className="text-xs text-center" style={{ color: "#7A6000", lineHeight: 18 }}>
-                本システムは、カウンセリングを体験していただくもので、カウンセリングを代替するものではありません。本格的なカウンセリングは、専門のクリニックや心療内科にご相談ください。
-              </Text>
-            </View>
+            messages.length <= 1 ? (
+              <View
+                className="rounded-xl p-3 mb-4"
+                style={{ backgroundColor: "#FFF8E1", borderWidth: 1, borderColor: "#F0C040" }}
+              >
+                <Text className="text-xs text-center" style={{ color: "#7A6000", lineHeight: 18 }}>
+                  本システムは、カウンセリングを体験していただくもので、カウンセリングを代替するものではありません。本格的なカウンセリングは、専門のクリニックや心療内科にご相談ください。
+                </Text>
+              </View>
+            ) : null
           }
           onContentSizeChange={() => {
             // 新しいメッセージが追加されたら最上部にスクロール
