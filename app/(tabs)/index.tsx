@@ -5,6 +5,8 @@ import { ScreenContainer } from "@/components/screen-container";
 import { useColors } from "@/hooks/use-colors";
 import { useMemo, useState, useEffect } from "react";
 import { PersonalData, loadPersonalData, savePersonalData } from "@/lib/personal-data";
+import { getAllConsultations } from "@/lib/storage";
+import { type NanType } from "@/constants/kannon-data";
 
 // 四季の画像URL（CDN）
 const SEASONAL_IMAGES = {
@@ -78,6 +80,33 @@ export default function HomeScreen() {
   const handleCancelPersonalData = () => {
     setShowPersonalDataModal(false);
   };
+
+  // 今日のアドバイス用：最多の難を取得
+  const [todayAdvice, setTodayAdvice] = useState<string>("");
+
+  useEffect(() => {
+    getAllConsultations().then((data) => {
+      if (data.length === 0) return;
+      const counts: Record<NanType, number> = {
+        fire: 0, water: 0, wind: 0, demon: 0, sword: 0, chain: 0, grudge: 0,
+      };
+      data.forEach((c) => { if (c.nanType in counts) counts[c.nanType]++; });
+      const maxNan = (Object.entries(counts).reduce((max, [nan, count]) =>
+        count > max.count ? { nan: nan as NanType, count } : max,
+        { nan: "fire" as NanType, count: 0 }
+      )).nan;
+      const adviceMap: Record<NanType, string> = {
+        fire: "怒りや焦りを感じたら、深呼吸を3回してみましょう。感情に飲み込まれる前に、一歩引いて自分を見つめる時間を作ることが大切です。",
+        water: "欲しいものがあるとき、本当に必要かどうか一晩考えてみましょう。物質的な豊かさよりも、心の豊かさを大切にすることで、本当の満足が得られます。",
+        wind: "情報に惑わされそうになったら、その情報源を確認しましょう。真実を見極める目を養うことで、迷いから解放されます。",
+        demon: "人との関係で不安を感じたら、相手の立場に立って考えてみましょう。信頼関係は、相互理解から生まれます。",
+        sword: "プレッシャーを感じたら、自分の意見を大切にしましょう。他人の期待に応えることよりも、自分らしく生きることが重要です。",
+        chain: "周りの目が気になったら、自分の価値観を確認しましょう。他人の評価ではなく、自分の心に従うことで、本当の自由が得られます。",
+        grudge: "傷ついたら、その気持ちを誰かに話してみましょう。一人で抱え込まず、信頼できる人に相談することで、心が軽くなります。",
+      };
+      setTodayAdvice(adviceMap[maxNan] || "");
+    });
+  }, []);
 
   return (
     <ScreenContainer edges={["left", "right", "bottom"]}>
@@ -164,6 +193,27 @@ export default function HomeScreen() {
                 </Text>
               </View>
             </TouchableOpacity>
+
+            {/* 今日のアドバイス */}
+            {todayAdvice ? (
+              <View
+                className="w-full max-w-sm rounded-2xl p-5 mb-6"
+                style={{ backgroundColor: colors.surface, borderWidth: 1, borderColor: colors.border }}
+              >
+                <Text
+                  className="text-sm font-bold mb-2"
+                  style={{ color: "#8A2BE2" }}
+                >
+                  今日のアドバイス
+                </Text>
+                <Text
+                  className="text-sm leading-relaxed"
+                  style={{ color: colors.foreground }}
+                >
+                  {todayAdvice}
+                </Text>
+              </View>
+            ) : null}
           </View>
         </View>
       </ScrollView>
