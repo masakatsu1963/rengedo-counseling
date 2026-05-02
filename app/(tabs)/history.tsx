@@ -1,13 +1,16 @@
 import { useState, useEffect } from "react";
-import { ScrollView, Text, View, Dimensions, Linking, TouchableOpacity } from "react-native";
+import { ScrollView, Text, View, Dimensions, Linking, TouchableOpacity, Platform, Modal } from "react-native";
 import { ScreenContainer } from "@/components/screen-container";
 import { getAllConsultations, type ConsultationSession } from "@/lib/storage";
 import { type NanType } from "@/constants/kannon-data";
+import { CreditFooter } from "@/components/credit-footer";
 
 /**
  * 過去の相談 Screen
  */
 export default function HistoryScreen() {
+  // Web版ではタブを開いた際に自動でモーダルを表示する
+  const [showWebModal, setShowWebModal] = useState(Platform.OS === "web");
   const [consultations, setConsultations] = useState<ConsultationSession[]>([]);
   const [nanCounts, setNanCounts] = useState<Record<NanType, number>>({
     fire: 0,
@@ -110,6 +113,54 @@ export default function HistoryScreen() {
 
   return (
     <ScreenContainer className="p-6">
+      {/* Web版：アプリ版案内モーダル */}
+      <Modal
+        visible={showWebModal}
+        transparent={true}
+        animationType="fade"
+        onRequestClose={() => setShowWebModal(false)}
+      >
+        <View
+          style={{
+            flex: 1,
+            backgroundColor: "rgba(0,0,0,0.5)",
+            justifyContent: "center",
+            alignItems: "center",
+            padding: 32,
+          }}
+        >
+          <View
+            style={{
+              backgroundColor: "#fff",
+              borderRadius: 16,
+              padding: 28,
+              width: "100%",
+              maxWidth: 360,
+              alignItems: "center",
+            }}
+          >
+            <Text style={{ fontSize: 20, fontWeight: "bold", marginBottom: 12, color: "#333" }}>
+              過去の相談
+            </Text>
+            <Text style={{ fontSize: 15, color: "#555", textAlign: "center", lineHeight: 24, marginBottom: 24 }}>
+              この機能はアプリ版でご使用いただけます。{"\n"}アプリをダウンロードしてお試しください。
+            </Text>
+            <TouchableOpacity
+              onPress={() => setShowWebModal(false)}
+              activeOpacity={0.8}
+              style={{
+                backgroundColor: "#7B5EA7",
+                borderRadius: 24,
+                paddingVertical: 12,
+                paddingHorizontal: 32,
+              }}
+            >
+              <Text style={{ color: "#fff", fontWeight: "bold", fontSize: 15 }}>閉じる</Text>
+            </TouchableOpacity>
+          </View>
+        </View>
+      </Modal>
+
       <ScrollView contentContainerStyle={{ flexGrow: 1 }}>
         <View className="flex-1 gap-6">
           {/* タイトル */}
@@ -216,12 +267,10 @@ export default function HistoryScreen() {
                 蓮華堂
               </Text>
             </TouchableOpacity>
-            <Text className="text-xs text-center" style={{ color: "#999999" }}>
-              2026 copyright by Rengedo, Masakatsu
-            </Text>
           </View>
         </View>
       </ScrollView>
+      <CreditFooter />
     </ScreenContainer>
   );
 }

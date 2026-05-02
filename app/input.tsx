@@ -12,6 +12,7 @@ import {
 import { useRouter } from "expo-router";
 import { ScreenContainer } from "@/components/screen-container";
 import { AppFooter } from "@/components/app-footer";
+import { CreditFooter } from "@/components/credit-footer";
 import { useColors } from "@/hooks/use-colors";
 import { IconSymbol } from "@/components/ui/icon-symbol";
 import { trpc } from "@/lib/trpc";
@@ -147,6 +148,7 @@ export default function InputScreen() {
           </View>
         </ScrollView>
       </KeyboardAvoidingView>
+      <CreditFooter />
       <AppFooter />
     </ScreenContainer>
   );

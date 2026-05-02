@@ -3,6 +3,7 @@ import { ScreenContainer } from "@/components/screen-container";
 import { useColors } from "@/hooks/use-colors";
 import { useRouter } from "expo-router";
 import { type NanType } from "@/constants/kannon-data";
+import { CreditFooter } from "@/components/credit-footer";
 
 /**
  * 七観音とは画面
@@ -90,6 +91,7 @@ export default function AboutScreen() {
 
         </View>
       </ScrollView>
+      <CreditFooter />
     </ScreenContainer>
   );
 }

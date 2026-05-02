@@ -3,6 +3,7 @@ import { Image } from "expo-image";
 import { useRouter, useLocalSearchParams } from "expo-router";
 import { ScreenContainer } from "@/components/screen-container";
 import { AppFooter } from "@/components/app-footer";
+import { CreditFooter } from "@/components/credit-footer";
 import { useColors } from "@/hooks/use-colors";
 import { getKannonByNan, getAllKannon, type NanType } from "@/constants/kannon-data";
 
@@ -111,6 +112,7 @@ export default function KannonSelectionScreen() {
 
         </View>
       </ScrollView>
+      <CreditFooter />
       <AppFooter />
     </ScreenContainer>
   );

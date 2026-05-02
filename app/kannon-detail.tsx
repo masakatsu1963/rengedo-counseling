@@ -4,6 +4,7 @@ import { ScreenContainer } from "@/components/screen-container";
 import { getKannonByNan, type NanType } from "@/constants/kannon-data";
 import { useColors } from "@/hooks/use-colors";
 import { TouchableOpacity } from "react-native";
+import { CreditFooter } from "@/components/credit-footer";
 
 /**
  * 観音様の詳細ページ
@@ -114,6 +115,7 @@ export default function KannonDetailScreen() {
           </View>
         </View>
       </ScrollView>
+      <CreditFooter />
     </ScreenContainer>
   );
 }

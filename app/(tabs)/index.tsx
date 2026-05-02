@@ -1,4 +1,5 @@
 import { ScrollView, Text, View, TouchableOpacity, Image, TextInput, Modal, Platform } from "react-native";
+import { CreditFooter } from "@/components/credit-footer";
 import { Picker } from "@react-native-picker/picker";
 import { useRouter } from "expo-router";
 import { ScreenContainer } from "@/components/screen-container";
@@ -217,6 +218,9 @@ export default function HomeScreen() {
           </View>
         </View>
       </ScrollView>
+
+      {/* クレジットフッター */}
+      <CreditFooter />
 
       {/* パーソナルデータ入力モーダル */}
       <Modal
