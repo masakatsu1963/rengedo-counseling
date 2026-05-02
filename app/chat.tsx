@@ -43,6 +43,7 @@ export default function ChatScreen() {
   const [inputText, setInputText] = useState("");
   const [sessionId] = useState(() => generateId());
   const [showSummaryButton, setShowSummaryButton] = useState(false);
+  const [showEndButton, setShowEndButton] = useState(false);
   const [personalData, setPersonalData] = useState<PersonalData | null>(null);
 
   const chatMutation = trpc.chat.useMutation();
@@ -113,9 +114,9 @@ export default function ChatScreen() {
       const updatedMessages = [...newMessages, kannonMessage];
       setMessages(updatedMessages);
 
-      // 3ターン目以降は「まとめと提案」ボタンを表示
+      // 4ターン目以降は「まとめと提案」ボタンを表示
       const userMessageCount = updatedMessages.filter(msg => msg.role === "user").length;
-      if (userMessageCount >= 3) {
+      if (userMessageCount >= 4) {
         setShowSummaryButton(true);
       }
 
@@ -286,6 +287,7 @@ export default function ChatScreen() {
 
                     const updatedMessages = [...newMessages, kannonMessage];
                     setMessages(updatedMessages);
+                    setShowEndButton(true);
 
                     const session: ConsultationSession = {
                       id: sessionId,
@@ -337,6 +339,25 @@ export default function ChatScreen() {
               >
                 <Text className="text-center font-semibold" style={{ color: kannonData.colorTheme.primary }}>
                   相談を続ける
+                </Text>
+              </TouchableOpacity>
+            </View>
+          )}
+          {/* まとめ後の「相談を終了する」ボタン */}
+          {showEndButton && (
+            <View className="mb-2">
+              <TouchableOpacity
+                onPress={() => router.replace("/" as any)}
+                activeOpacity={0.7}
+                className="px-4 py-2 rounded-full"
+                style={{
+                  backgroundColor: colors.surface,
+                  borderWidth: 1,
+                  borderColor: colors.muted,
+                }}
+              >
+                <Text className="text-center font-semibold" style={{ color: colors.muted }}>
+                  相談を終了する
                 </Text>
               </TouchableOpacity>
             </View>
