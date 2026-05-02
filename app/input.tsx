@@ -136,6 +136,14 @@ export default function InputScreen() {
                 </Text>
               )}
             </TouchableOpacity>
+
+            {/* 免責文 */}
+            <Text
+              className="text-xs text-center mt-4"
+              style={{ color: colors.muted, lineHeight: 18 }}
+            >
+              本システムは、カウンセリングを体験していただくもので、カウンセリングを代替するものではありません。{"\n"}本格的なカウンセリングは、専門のクリニックや心療内科にご相談ください。
+            </Text>
           </View>
         </ScrollView>
       </KeyboardAvoidingView>

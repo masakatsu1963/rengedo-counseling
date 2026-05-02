@@ -230,18 +230,7 @@ export default function ChatScreen() {
           keyExtractor={(item) => item.id}
           renderItem={renderMessage}
           contentContainerStyle={{ padding: 16, paddingBottom: 8 }}
-          ListHeaderComponent={
-            messages.length <= 1 ? (
-              <View
-                className="rounded-xl p-3 mb-4"
-                style={{ backgroundColor: "#FFF8E1", borderWidth: 1, borderColor: "#F0C040" }}
-              >
-                <Text className="text-xs text-center" style={{ color: "#7A6000", lineHeight: 18 }}>
-                  本システムは、カウンセリングを体験していただくもので、カウンセリングを代替するものではありません。本格的なカウンセリングは、専門のクリニックや心療内科にご相談ください。
-                </Text>
-              </View>
-            ) : null
-          }
+
           onContentSizeChange={() => {
             // 新しいメッセージが追加されたら最上部にスクロール
             flatListRef.current?.scrollToOffset({ offset: 0, animated: true });
